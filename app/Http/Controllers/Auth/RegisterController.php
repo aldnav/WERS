@@ -63,50 +63,50 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(Request $data)
+    protected function create(array $data)
     {
-        // return User::create([
-        //     'name' => $data['name'],
-        //     'email' => $data['email'],
-        //     'password' => bcrypt($data['password']),
-        // ]);
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
         
-        DB::beginTransaction();
-        $now = now();
-        $message = null;
-        $extras = array();
-        try {
-            DB::insert('insert into users (name, email, password, created_at, updated_at) values (?, ?, ?, ?, ?)',
-            [
-                $data['name'],
-                $data['email'],
-                bcrypt($data['password']),
-                $now,
-                $now
-            ]);
-            DB::commit();
-        } catch (\Illuminate\Database\QueryException $ex)
-        {
-            $code = 400;
-            $message = $ex->getMessage();
-            DB::rollback();
-        } finally {
-            // NOTE: Be specific on db error messages
-            if ($message == null) {
-                $code = 200;
-                $message = 'Success';
-                $extras['redirect'] = '/home';
-            }
-        }
+        // DB::beginTransaction();
+        // $now = now();
+        // $message = null;
+        // $extras = array();
+        // try {
+        //     DB::insert('insert into users (name, email, password, created_at, updated_at) values (?, ?, ?, ?, ?)',
+        //     [
+        //         $data['name'],
+        //         $data['email'],
+        //         bcrypt($data['password']),
+        //         $now,
+        //         $now
+        //     ]);
+        //     DB::commit();
+        // } catch (\Illuminate\Database\QueryException $ex)
+        // {
+        //     $code = 400;
+        //     $message = $ex->getMessage();
+        //     DB::rollback();
+        // } finally {
+        //     // NOTE: Be specific on db error messages
+        //     if ($message == null) {
+        //         $code = 200;
+        //         $message = 'Success';
+        //         $extras['redirect'] = '/home';
+        //     }
+        // }
 
-        $data = array(
-            'code'    => $code,
-            'message' => $message,
-            'extras'  => $extras,
-            'data'    => $data
-        );
+        // $data = array(
+        //     'code'    => $code,
+        //     'message' => $message,
+        //     'extras'  => $extras,
+        //     'data'    => $data
+        // );
 
-        return response()->json($data, $code);
+        // return response()->json($data, $code);
 
     }
 }
