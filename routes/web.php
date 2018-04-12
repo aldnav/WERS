@@ -18,3 +18,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/team/new', function() {
+    return view('team.new');
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
