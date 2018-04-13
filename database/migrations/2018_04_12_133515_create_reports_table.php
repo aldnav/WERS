@@ -17,9 +17,11 @@ class CreateReportsTable extends Migration
             $table->increments('id');
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('restrict');
             $table->foreign('incident_id')->references('id')->on('incidents')->onDelete('restrict'); 
-            $table->
+            $table->decimal('lat');
+            $table->decimal('lng');
             $table->string('body');
             $table->integer('status');
+            $table->datetime('resolved_time');
             $table->timestamps();
         });
     }
