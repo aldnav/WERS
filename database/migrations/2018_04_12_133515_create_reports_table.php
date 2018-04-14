@@ -15,7 +15,9 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('owner_id')->unsigned();
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('incident_id')->unsigned();
             $table->foreign('incident_id')->references('id')->on('incidents')->onDelete('restrict'); 
             $table->decimal('lat');
             $table->decimal('lng');
