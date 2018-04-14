@@ -40,11 +40,10 @@
                                 id="country" disabled="true"></input></td>
                         </tr>
                     </table>
-                <div id="map"></div>
+                    <div id="map"></div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 @endsection
