@@ -11,7 +11,7 @@
                   <div class="row" >
                     <div class="col-md-4 col-md-12">
                     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-                      <form>
+                      <form id="report" action="">
                           <div class="form-inline">  
                              <input type="hidden" id="id">
                             <select id="incident_id" class="form-control">
@@ -23,7 +23,6 @@
                                 <option>5</option>
                             </select>
                           </div>
-<!--                           {{ csrf_field() }} -->
                           <div class=form-group>
                             <textarea id="body" class="controls" placeholder="What is this report about? (e.g. Fire on bldg...)"></textarea>  
                           </div>

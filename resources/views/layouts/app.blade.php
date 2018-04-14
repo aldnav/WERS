@@ -76,7 +76,7 @@
     </div>
 
     <!-- Scripts -->
-    <!-- <script src="{{ asset('js/app.js') }}"></script> -->
+    <script src="{{ asset('js/app.js') }}"></script>
      <script crossorigin="anonymous" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" src="https://code.jquery.com/jquery-3.1.0.min.js">
         </script>     
          <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7a-pVRxc_cx00QNTiPWQZW50qxiqZGO0&libraries=places&callback=geoLocationInit">
@@ -86,24 +86,25 @@
         </script>
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
       </script>
-      <script src="{{ asset('js/app.js') }}"></script>
+<!--       <script src="{{ asset('js/app.js') }}"></script> -->
       <script type="text/javascript">
-          data='';
-          submitReport = function(){
+        data='';
+          submitReport = function(event){
+            // event.preventDefault();
+            $('#report').serialize();
+            $.ajaxSetup({
+            headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            });
             $.ajax({
-                url:'/api/saveOrUpdate', 
+                url:'api/saveOrUpdate', 
                 type:'POST',
-                data:{id:$('#id').val(), owner_id:$('#owner_id').val(),incident_id:$('#incident_id').val(),lat:$('#lat').val(), lng:$('#lng').val(),status:$('#status').val()},
+                data:{id:$('#id').val(), owner_id:$('#owner_id').val(),incident_id:$('#incident_id').val(),lat:$('#lat').val(), lng:$('#lng').val(),body:$('#body').val(),status:$('#status').val()},
                 success: function (response){
-                    console.log("successful");
                     alert(response.message);  
-                },
-                error: function(errorThrown) 
-                {
-                    console.log("error");
-                    alert(errorThrown);
                 }
-              
+
             });
         }
       </script>
