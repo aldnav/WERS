@@ -4,10 +4,11 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
 require('./bootstrap');
+let Map = require('./script');
 
 window.Vue = require('vue');
+window.geoLocationInit = Map.geoLocationInit;
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
