@@ -30,7 +30,7 @@ $(document).ready(function(){
 		
 		var input = document.getElementById('pac-input');
         var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+//        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function() {
@@ -66,12 +66,13 @@ $(document).ready(function(){
 
 			  console.log(markers.length);
 
-		        markers.push(new google.maps.Marker({
+			  var marker = new google.maps.Marker({
 	              map: map,
 	              draggable: true,
 	              title: places[0].name,
 	              position: places[0].geometry.location
-	            }));
+	            });
+		        // markers.push();
 
 	          // For each place, get the icon, name and location.
 	          var bounds = new google.maps.LatLngBounds();
@@ -172,3 +173,5 @@ $(document).ready(function(){
 			});
 		});
 	}
+
+	

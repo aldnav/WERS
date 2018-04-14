@@ -18,3 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/report','ReportController@ajaxDemo');
+
+Route::get('my-posts', 'PostController@myPosts');
+Route::resource('posts','PostController');

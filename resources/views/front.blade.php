@@ -4,49 +4,76 @@
 @section('content')
 <div class="container">
     <div class="row">
+        
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
-                <div class="panel-body">
-                   <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-                       <table id="address">
-      <tr>
-        <td class="label">Street address</td>
-        <td class="slimField"><input class="field" id="street_number"
-              disabled="true"></input></td>
-        <td class="wideField" colspan="2"><input class="field" id="route"
-              disabled="true"></input></td>
-      </tr>
-      <tr>
-        <td class="label">City</td>
-        <!-- Note: Selection of address components in this example is typical.
-             You may need to adjust it for the locations relevant to your app. See
-             https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
-        -->
-        <td class="wideField" colspan="3"><input class="field" id="locality"
-              disabled="true"></input></td>
-      </tr>
-      <tr>
-        <td class="label">State</td>
-        <td class="slimField"><input class="field"
-              id="administrative_area_level_1" disabled="true"></input></td>
-        <td class="label">Zip code</td>
-        <td class="wideField"><input class="field" id="postal_code"
-              disabled="true"></input></td>
-      </tr>
-      <tr>
-        <td class="label">Country</td>
-        <td class="wideField" colspan="3"><input class="field"
-              id="country" disabled="true"></input></td>
-      </tr>
-    </table>
-                    <div id="map"> 
-                </div>
-                <div id="map"> </div>	
-                </div>
+                  <div class="row" >
+                    <div class="col-md-4 col-md-12">
+                    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                      <form>
+                          <div class="form-inline">  
+                             <input type="hidden" id="id">
+                            <select id="incident_id" class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>7</option>
+                                <option>6</option>
+                                <option>5</option>
+                            </select>
+                          </div>
+<!--                           {{ csrf_field() }} -->
+                          <div class=form-group>
+                            <textarea id="body" class="controls" placeholder="What is this report about? (e.g. Fire on bldg...)"></textarea>  
+                          </div>
+                          <div class=form-group>
+                              <input id="owner_id" class="controls">  
+                          </div>
+                            <div class=form-group>
+                              <input id="lat" class="controls">  
+                          </div>
+                            <div class=form-group>
+                              <input id="lng" class="controls">  
+                          </div>
+                          <div class=form-group>
+                              <input id="status" class="controls">  
+                          </div>
+                           <button  type="submit" class="btn btn-success" onclick="submitReport();">Send Report</button>
+                        </form>
+                      
+                      <div id="map"> </div> 
+                      </div>
+                  </div>
+                
             </div>
+
         </div>
+        
     </div>
 
 </div>
 @endsection
+<!-- <script type="text/javascript">
+$(document).ready(function(){
+  $('#submitReport').on(submit(function(e){
+       e.preventDefault();
+       var formData = $(this).serialize();
+       var ajaxUrl = $(this).attr('action');
+/*        var val=$('#locationSelect').val();*/
+      $.ajax({
+        url:'http://127.0.0.1:8000/report',
+        data:formData,
+        method:"POST",
+        success: function (data){
+          $(".message").addClass('alert alert-success');
+          $(".message").html(data.result);
+        },
+        error : function(data){
+          $(".message").addClass('alert alert-danger');
+          $(".message").html(data.result);
+        }
+      });
+    })
+  );
+});</script> -->

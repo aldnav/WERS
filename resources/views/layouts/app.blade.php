@@ -81,8 +81,31 @@
         </script>     
          <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7a-pVRxc_cx00QNTiPWQZW50qxiqZGO0&libraries=places&callback=geoLocationInit">
         </script>
-        <script src="{{asset('js/script.js')}}"></script>
+          <script src="{{asset('js/script.js')}}"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
         </script>
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+      </script>
+      <script src="{{ asset('js/app.js') }}"></script>
+      <script type="text/javascript">
+          data='';
+          submitReport = function(){
+            $.ajax({
+                url:'/api/saveOrUpdate', 
+                type:'POST',
+                data:{id:$('#id').val(), owner_id:$('#owner_id').val(),incident_id:$('#incident_id').val(),lat:$('#lat').val(), lng:$('#lng').val(),status:$('#status').val()},
+                success: function (response){
+                    console.log("successful");
+                    alert(response.message);  
+                },
+                error: function(errorThrown) 
+                {
+                    console.log("error");
+                    alert(errorThrown);
+                }
+              
+            });
+        }
+      </script>
 </body>
 </html>
