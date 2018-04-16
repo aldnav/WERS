@@ -1,0 +1,37 @@
+$icons-neutral: #a1a7b0;
+$icons-hovered: #0069d9;
+$notifications-active: #e63333;
+$notifications-active-border: #801411;
+
+nav {
+
+    .js-add-btn {
+        background-color: transparent;
+        color: $icons-neutral;
+
+        &:hover {
+            color: $icons-hovered;
+        }
+    }
+
+    .js-notifications {
+        color: $icons-neutral;
+        margin-right: 10px;
+
+        &:hover {
+            color: $icons-hovered;
+        }
+
+        &.js-notifications--active {
+            color: $notifications-active;
+            border-color: $notifications-active-border;
+        }
+    }
+
+    .js-login {
+        background-color: $icons-neutral;
+        border-color: $icons-neutral;
+        font-size: 11px;
+    }
+
+}

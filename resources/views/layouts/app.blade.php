@@ -20,15 +20,21 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse mr-auto" id="navbarCollapse">
+      <div class="collapse navbar-collapse" id="navbarCollapse">
         <form class="form-inline mt-2 mt-md-0 search-form">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
         </form>
       </div>
+      <div class="quick-stats mr-auto">
+        <div class="stat">
+          <div class="stat-counter">5</div>
+          <div class="stat-text">Fires</div>
+        </div>
+      </div>
       <!-- <i class="far fa-plus-circle"></i> -->
-      <button type="button" class="btn btn-default btn-sm" aria-label="Left Align">Add</button>
-      <a href="#">Notifications</a>
-      <button type="button" class="btn btn-primary btn-sm">Sign in</button>
+      <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align"><i class="fas fa-plus-circle"></i></button>
+      <a href="#"><i class="fas fa-bell js-notifications"></i></a>
+      <button type="button" class="btn btn-primary btn-sm js-login"><i class="fas fa-sign-in-alt"></i> &nbsp;Log in</button>
     </nav>
     @yield('content')
 
