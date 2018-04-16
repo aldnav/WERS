@@ -15,21 +15,19 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+  <div id="app">
     <nav class="navbar navbar-expand-md">
       <a class="navbar-brand" href="#">WERS</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="collapse navbar-collapse search-form-container" id="navbarCollapse">
         <form class="form-inline mt-2 mt-md-0 search-form">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
         </form>
       </div>
       <div class="quick-stats mr-auto">
-        <div class="stat">
-          <div class="stat-counter">5</div>
-          <div class="stat-text">Fires</div>
-        </div>
+        <stat></stat>
       </div>
       <!-- <i class="far fa-plus-circle"></i> -->
       <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align"><i class="fas fa-plus-circle"></i></button>
@@ -37,7 +35,7 @@
       <button type="button" class="btn btn-primary btn-sm js-login"><i class="fas fa-sign-in-alt"></i> &nbsp;Log in</button>
     </nav>
     @yield('content')
-
+  </div>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script crossorigin="anonymous" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
