@@ -17,6 +17,7 @@ window.geoLocationInit = Map.geoLocationInit;
  */
 
 Vue.component('sidebar', require('./components/Sidebar.vue'));
+Vue.component('stat', require('./components/Quickstats.vue'));
 
 const app = new Vue({
     el: '#app'
