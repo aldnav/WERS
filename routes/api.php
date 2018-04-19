@@ -17,6 +17,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::post('/register', ['as' => 'user-register', 'uses'=>'Auth\RegisterController@create']);
 // Route::post('/login', ['as' => 'user-login', 'uses'=>'Auth\LoginController@login']);
+
+Route::get('incidentTypes', 'Api\ReportController@incidentTypes');  
+
+Route::get('/user', function(){
+	return Auth::user()->id;
+});
+
+Route::post('/saveOrUpdate','Api\ReportController@saveOrUpdate');

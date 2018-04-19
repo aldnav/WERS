@@ -21,9 +21,9 @@ function initMap(){
 /*		add searchbox*/
 function initSearchbox(){
 	
-	var input = document.getElementById('pac-input');
+	var input = document.getElementById('search-box');
 	var searchBox = new google.maps.places.SearchBox(input);
-	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+	//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); //deleted this to transfer search-box to nav-bar
 
 	// Bias the SearchBox results towards current map's viewport.
 	map.addListener('bounds_changed', function() {
@@ -31,40 +31,24 @@ function initSearchbox(){
 	});
 
 	var markers = [];
-	var incidentAddr;
-/*        map.addListener('click', function(incidentAddr) {
-		console.log(incidentAddr);
-		var marker = new google.maps.Marker({
-			position: incidentAddr.latLng,
-			map: map,
-			draggable:true
-			title: incidentAddr.name
-		});
-	});
-*/
+
 	// Listen for the event fired when the user selects a prediction and retrieve
 	// more details for that place.
 	searchBox.addListener('places_changed', function() {
 			var places = [];
 			places = searchBox.getPlaces();
-			incidentAddr=places[0];          	  
 
 			if (places.length == 0) {
-			return;
+				return;
 			}
-			// Clear out the old markers.
-			markers.forEach(function(marker) {
-			marker.setMap(null);
-			});
+			// // Clear out the old markers.
+			for (var i = 0; i < markers.length; i++) {
+	          markers[i].setMap(null);
+	        }
+			markers=[];
 
 			console.log(markers.length);
 
-			markers.push(new google.maps.Marker({
-				map: map,
-				draggable: true,
-				title: places[0].name,
-				position: places[0].geometry.location
-			}));
 
 			// For each place, get the icon, name and location.
 			var bounds = new google.maps.LatLngBounds();
@@ -73,7 +57,7 @@ function initSearchbox(){
 				console.log("Returned place contains no geometry");
 				return;
 			}
-
+			console.log(places.length);
 
 			if (place.geometry.viewport) {
 				// Only geocodes have viewport.
@@ -82,9 +66,34 @@ function initSearchbox(){
 				bounds.extend(place.geometry.location);
 			}
 			});
+
+			var marker = new google.maps.Marker({
+				map: map,
+				draggable: true,
+				title: places[0].name,
+				position: places[0].geometry.location
+			});
+			markers.push(marker);
+			marker.addListener('dragend', handleDragEvent);
+			changeLatLng(places[0].geometry.location);
+
 			map.fitBounds(bounds);
 	});
 
+
+}
+
+function handleDragEvent(event){
+	document.getElementById('lat').value = event.latLng.lat();
+	document.getElementById('lng').value = event.latLng.lng();
+}
+
+function changeLatLng(position){
+	var latElem = document.getElementById('lat');
+	var lngElem = document.getElementById('lng');
+
+	latElem.value = position.lat();
+	lngElem.value = position.lng();
 
 }
 
@@ -138,6 +147,7 @@ function createMap(){
 		draggable:true,
 		map: map		   
 	});
+	marker.addListener('dragend', handleDragEvent);
 	initSearchbox();
 }
 
@@ -150,6 +160,7 @@ function createMarker (latLng, name) {
 		title: name,
 		icon: "/flag2.ico"
 	});
+	marker.addListener('dragend', handleDragEvent);
 }
 
 
