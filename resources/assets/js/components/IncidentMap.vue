@@ -1,5 +1,6 @@
 <template>
-  <GmapMap style="width: 100%; min-height: 500px; height:100%" :center="center"
+
+  <GmapMap :center="center"
     :zoom="zoom" ref = "map">
     <gmap-marker
       :key ="index"

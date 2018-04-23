@@ -3,25 +3,24 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-
-          <div class="modal-header">
+          <div class="panel panel-primary">
             <slot name="header">
-              Report Incident
+              default header
             </slot>
-          </div>
-
-          <div class="modal-body">
+          <div class="panel-body">
             <slot name='body'>
               default body
             </slot>
           </div>
-          <div class="modal-footer">
+
+          <!-- <div class="modal-footer">
             <slot name='footer'>
-              <button class="btn btn-sm js-add-btn" id="show-modal" @click="$emit('close')">Close</button>
-            </slot>
+              default footer
+            </slot> -->
+          </div>
           </div>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
   </transition>
 </template>

@@ -2,12 +2,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid" id="app">
+<div class="container-fluid">
         <div class="row flex-xl-nowrap">
             <sidebar></sidebar>
-            <div class="h-100 col-12 col-md-9 col-xl-10 m-0 p-0">
-                <incident-map class="h-100"> </incident-map>
-            </div>
+
+            <div class=" col-xs-12 col-sm-9">
+
+                <incident-map> </incident-map>
+            
         </div>
+    </div>
     </div>
 @endsection

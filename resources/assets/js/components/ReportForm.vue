@@ -1,33 +1,42 @@
 <template>
-    <div class="report-form">
+  <transition name="modal">
+    <div class="form-horizontal">
+      
         <input type="hidden" name="_token" id="csrf-token" :value="csrf" />
-          <div class="form-inline">  
-             <input type="hidden" id="id" name="id">
-            <select id="incident_id" name="incident_id" v-model="report.incident_id">
-               <option  v-for="incident in incidents" v-bind:value="incident.id" v-text="incident.name"></option>
-            </select>
-          </div>
-          <div class=form-group>
-            <textarea id="body" name="body" class="controls" placeholder="What is this report about? (e.g. Fire on bldg...)" v-model="report.body"></textarea>  
-          </div>
-          <div class=form-group>
-              <input id="owner_id" name="owner_id" userId="user-id" class="controls" hidden="true" v-model="report.owner_id">  
-          </div>
-            <div class=form-group>
-              <input id="lat" name="lat" class="controls" v-model="report.lat">  
+         <p v-if="errors.length">
+          <b>Please correct the following error(s):</b>
+          <ul>
+            <li v-for="error in errors">{{ error }}</li>
+          </ul>
+        </p>
+        <div style="z-index: 9999; width:100%">
+        <place-search></place-search>
+        </div>
+        <div class="form-group">
+            <textarea id="body" name="body" class="form-control" placeholder="What is this report about? (e.g. Fire on bldg...)" v-model="report.body" style="width:100%"></textarea>  
+        </div>
+          <div class="form-group">  
+            <div class="dropdown theme-dropdown clearfix">
+              <select id="incident_id" class="form-control right-align" name="incident_id" v-model="report.incident_id">
+                <option disabled value="null">Nature of Incident</option>
+                 <option  v-for="incident in incidents" v-bind:value="incident.id" v-text="incident.name"></option>
+              </select>
             </div>
-            <div class=form-group>
-              <input id="lng" name="lng" class="controls" v-model="report.lng">  
           </div>
-          
-           <button  type="submit" class="btn btn-success" @click="$emit('close')">Send Report</button> 
+          <div class="form-group">
+              <input id="owner_id" name="owner_id" :userId="userId" class="controls" hidden="true" v-model="report.owner_id">  
+          </div>
+           <button  type="submit" class="btn btn-success" v-on:click="sendReport">Send Report</button> 
+
+          </div>
     </div>
+  </transition>
 </template>
  
 <script>
     export default {
           props:{
-            userId:Number,
+            userId:''
           },
 
          data() {
@@ -35,12 +44,15 @@
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 selected:null,
                 incidents:[],
+                errors:[],
                 report:{
-                  incident_id:0,
+                  incident_id:null,
                   owner_id:this.userId,
                   body:"",
-                  lat:this.$root.$data.mapLat,
-                  lng:this.$root.$data.mapLng
+                  //initial value would be the geolocation of user
+                  lat:this.$root.$data.mapLat,    
+                  lng:this.$root.$data.mapLng,
+                  status:0
                 },
                 submitted:false
             };
@@ -50,19 +62,38 @@
           this.fetchIncidents();
         },
 
+        //marker change listeners
         created(){
-
-          this.$on('close', this.sendReport());
+          Bus.$on('marker_dragged', place=>{
+            this.report.lng = place.lng();
+            this.report.lat = place.lat();
+          });
+          Bus.$on('marker_changed', place=>{
+            this.report.lng = place.lng;
+            this.report.lat = place.lat;
+          });
         },
-
         methods: {
           fetchIncidents: function() {
             axios.get('/api/incidentTypes').then(response => {this.incidents = response.data.incidents});
             console.log(this.incidents);
           },
 
+          //validate, save and show success message
           sendReport: function(){
-            axios.post('/api/saveOrUpdate', this.report);
+            if(this.report.lat && this.report.body && this.report.incident_id){ 
+              axios.post('/api/saveOrUpdate', this.report);
+              this.$swal({text:"Report submitted!",icon:"success", timer:1000,});;  
+                this.$emit('close');
+            } else {
+
+              this.errors = [];
+              if(!this.report.body) this.errors.push("Fill in details of incident.");
+              if(!this.report.lat) this.errors.push("Specify the location of incident.");
+              if(!this.report.incident_id) this.errors.push("Specify type of incident.");
+              e.preventDefault();
+            }
+            
           }
 
         }

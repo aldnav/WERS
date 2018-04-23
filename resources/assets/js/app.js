@@ -11,13 +11,15 @@ window.Vue = require('vue');
 //window.geoLocationInit = Map.geoLocationInit;
  
 import * as VueGoogleMaps from 'vue2-google-maps';
+import VueSweetalert2 from 'vue-sweetalert2';
+
 window.Bus = new Vue;
 
-
+Vue.use(VueSweetalert2);
 Vue.use(VueGoogleMaps, {
     load: {
         key: 'AIzaSyA7a-pVRxc_cx00QNTiPWQZW50qxiqZGO0',
-        libraries: 'places', //// If you need to use place input
+        libraries: 'places', 
     }
 });
 
@@ -36,7 +38,6 @@ Vue.component('modal', require('./components/ModalComponent.vue'));
 
 const app = new Vue({
     el: '#app',
-
     data:{
     	showModal:false,
     	mapLat:0,
@@ -52,5 +53,5 @@ const app = new Vue({
         this.mapLng = place.lng();
         this.mapLat = place.lat();
       });
-    }
+    },
 });

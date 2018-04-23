@@ -22,29 +22,36 @@
       </button>
      <div class="float-left mr-auto" id="navbarCollapse">
         <div class="form-inline my-2 my-lg-0">
-          <place-search></place-search>
-          <!-- <button id="show-modal" @click="showModal = true" aria-label="Left Align">Add</button > -->
-          
-            <!-- <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align"><i class="fas fa-plus-circle"></i></button> -->
-      <!--    <modal></modal> -->
-          
-
-           <button class="btn btn-sm js-add-btn" id="show-modal" @click="showModal = true">Add</button>
-            <!-- use the modal component, pass in the prop -->
-            <modal v-if="showModal" @close="showModal=false" >
-            <!-- ongoing bug-fix for report incident -->
-            <!--   <template slot='body'>
-                <report-form :user-id={{Auth::user()}}  @close="showModal = false"></report-form>
-              </template> -->
-            </modal>
-        </div>
+             <!-- <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align"><i class="fas fa-plus-circle"></i></button> -->
+      <!--    <modal></modal> -->     
+           <button class="btn btn-sm js-add-btn" id="show-modal" @click="showModal=true" >Add</button>
+         </div>
       </div>
-   
+      
       <a href="#">Notifications</a>
       <button type="button" class="btn btn-primary btn-sm">Sign in</button>
     </nav>
 
-    
+              <modal v-if="showModal" @close="showModal = false">
+              <template slot='header'>
+                <div class="panel-heading clearfix">
+                  <h5 class="panel-title float-left">Add Report</h5>
+                  <button type="button" class="close float-right" aria-label="Close" @click="showModal = false"><span aria-hidden="true">&times;</span></button>
+                </div>
+              </template>
+              <template slot='body'>
+                  @if(Auth::guest())  
+                  <div class="panel-body">                
+                    <report-form :user-id= "''"  @close="showModal = false"></report-form>
+                  </div>
+                  @else
+                  <div class="panel-body">
+                    <report-form :user-id= "{{ Auth::user()-id() }}"  @close="showModal = false"></report-form>
+                  </div>
+                  @endif
+              </template>
+            </modal>
+
     @yield('content')
   </div>
     <!-- Scripts -->
@@ -52,6 +59,6 @@
 
 </body>
     <script crossorigin="anonymous" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7a-pVRxc_cx00QNTiPWQZW50qxiqZGO0&libraries=places&callback=geoLocationInit"></script> <!-- replaced with vue component -->
+    <!-- <script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7a-pVRxc_cx00QNTiPWQZW50qxiqZGO0&libraries=places&callback=geoLocationInit"></script>  --><!-- replaced with vue component -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </html>
