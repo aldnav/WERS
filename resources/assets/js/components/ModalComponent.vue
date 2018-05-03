@@ -1,8 +1,8 @@
 <template id="modal-template">
   <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
+    <div class="modal-mask pull-right">
+      <div class="modal-wrapper ">
+        <div class="modal-container ">
           <div class="panel panel-primary">
             <slot name="header">
               default header
@@ -11,16 +11,10 @@
             <slot name='body'>
               default body
             </slot>
-          </div>
-
-          <!-- <div class="modal-footer">
-            <slot name='footer'>
-              default footer
-            </slot> -->
+          </div> 
           </div>
           </div>
         </div>
       </div>
-    <!-- </div> -->
   </transition>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="input-group__input">
-    <gmap-autocomplete placeholder="Please enter location of incident." classname="form-control mr-sm-2" class='autocomplete' style="min-width:400px; border-radius: 5px;" @place_changed="getPlace">
+    <gmap-autocomplete placeholder="Please enter location of incident." classname="form-control" class='autocomplete' style="min-width:400px; border-radius: 2px;" @place_changed="getPlace" v-model="town">
     </gmap-autocomplete>
   </div>
 </template>
@@ -10,19 +10,22 @@
     data () {   
     	return{
     		center:this.center,
-    		zoom: 12
+    		zoom: 12,
+            town: null
     	}
     },
 
-    methods: {
-    	getPlace(place){
-    		let center = {
-    			lat: place.geometry.location.lat(),
-    			lng: place.geometry.location.lng()
-    		};
-    		this.center = center; 
-    		Bus.$emit('marker_changed',center);
-    	}
-    }
+    // methods: {
+    // 	getPlace(place){
+    // 		let center = {
+    // 			lat: place.geometry.location.lat(),
+    // 			lng: place.geometry.location.lng()
+    // 		};
+    //         this.town = place.formatted_address;
+    // 		this.center = center; 
+    // 		Bus.$emit('marker_changed',center);
+    // 	},
+
+    // }
  }
 </script>

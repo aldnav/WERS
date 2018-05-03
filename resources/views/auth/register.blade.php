@@ -61,6 +61,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('contact_number') ? ' has-error' : '' }}">
+                            <label for="contact_number" class="col-md-4 control-label">Contact Number</label>
+
+                            <div class="col-md-6">
+                                <input id="contact_number" type="contact_number" class="form-control" name="contact_number" value="{{ old('contact_number') }}" required>
+
+                                @if ($errors->has('contact_number'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('contact_number') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">

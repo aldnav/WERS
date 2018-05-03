@@ -2,7 +2,7 @@
 
   <GmapMap :center="center"
     :zoom="zoom" ref = "map">
-    <gmap-marker
+    <gmap-marker ref="marker"
       :key ="index"
       v-for="(m, index) in markers"
       :position="m.position"
@@ -14,7 +14,6 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.');
             this.initMap();
             this.geoLocationInit();
         },
@@ -63,6 +62,7 @@
                 };
                 this.zoom = 12;
                 Bus.$emit('marker_changed',this.center);
+                
               });
               console.log("successful geolocation.");
               //initMap();
@@ -75,7 +75,6 @@
             this.position=e.latLng;
             this.markers = [];
             this.addMarker(e.latLng); 
-            console.log(e.latLng.lat() + ' ' + e.latLng.lng());
             Bus.$emit('marker_dragged',e.latLng);
           },
 
@@ -83,6 +82,7 @@
 
             this.markers.push({
               position:markerLatLng,
+
               //icon:"/star-red.png"
             });
           },
@@ -96,7 +96,7 @@
             // if(this.markers.length>0){
             //     this.center=data.markers[0].position;
             // }
-            console.log(place);
+            this.zoom=12;
             this.center = place;
             this.markers = [];
             this.addMarker(place);    

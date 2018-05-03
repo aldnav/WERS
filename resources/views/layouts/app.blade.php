@@ -20,21 +20,27 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-     <div class="float-left mr-auto" id="navbarCollapse">
-        <div class="form-inline my-2 my-lg-0">
-             <!-- <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align"><i class="fas fa-plus-circle"></i></button> -->
-      <!--    <modal></modal> -->     
-           <button class="btn btn-sm js-add-btn" id="show-modal" @click="showModal=true" >Add</button>
-         </div>
-      </div>
-      
-      <a href="#">Notifications</a>
-      <button type="button" class="btn btn-primary btn-sm">Sign in</button>
+
+      @yield('add_report')
+            
+       @if (Auth::guest())
+          <a href="{{ route('login') }}" class="nav-link">Login</a>
+         <a href="{{ route('register') }}" class="nav-link">Register</a>
+      @else
+          <a href="#">Notifications</a><span>&nbsp;</span>
+          <a href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
+
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                        style="display: none;">
+                      {{ csrf_field() }}
+                  </form>          
+      @endif
+
     </nav>
 
               <modal v-if="showModal" @close="showModal = false">
               <template slot='header'>
-                <div class="panel-heading clearfix">
+                <div class="panel-default clearfix">
                   <h5 class="panel-title float-left">Add Report</h5>
                   <button type="button" class="close float-right" aria-label="Close" @click="showModal = false"><span aria-hidden="true">&times;</span></button>
                 </div>
@@ -42,11 +48,11 @@
               <template slot='body'>
                   @if(Auth::guest())  
                   <div class="panel-body">                
-                    <report-form :user-id= "''"  @close="showModal = false"></report-form>
+                    <report-form :user-id= "''" :user-contact="''" @close="showModal = false"></report-form>
                   </div>
                   @else
                   <div class="panel-body">
-                    <report-form :user-id= "{{ Auth::user()-id() }}"  @close="showModal = false"></report-form>
+                    <report-form :user-id= "{{ Auth::id() }}" @close="showModal = false"></report-form>
                   </div>
                   @endif
               </template>

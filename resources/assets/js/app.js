@@ -34,6 +34,7 @@ Vue.component('report-form', require('./components/ReportForm.vue'));
 Vue.component('incident-map', require('./components/IncidentMap.vue'));
 Vue.component('place-search', require('./components/PlaceSearch.vue'));
 Vue.component('modal', require('./components/ModalComponent.vue'));
+Vue.component('responder-map', require('./components/ResponderMapComponent.vue'));
 
 
 const app = new Vue({
@@ -41,17 +42,47 @@ const app = new Vue({
     data:{
     	showModal:false,
     	mapLat:0,
-    	mapLng:0
+    	mapLng:0,
+        formatAddress:null,
     },
     created(){
       Bus.$on('marker_changed', place=>{
         this.mapLng = place.lng;
         this.mapLat = place.lat;
+        // console.log(place);
+        // this.formatAddress=place.formatted_address;
       });
 
       Bus.$on('marker_dragged', place=>{
+        let center = {
+          lat: place.lat(),
+          lng: place.lng()
+        };
         this.mapLng = place.lng();
         this.mapLat = place.lat();
+        var google_maps_geocoder = new google.maps.Geocoder();
+          
+        google_maps_geocoder.geocode(
+              { 'latLng': center }, 
+              function( results, status ) {
+                  console.log("results");
+                  app.set_address(results[0].formatted_address);  
+              }
+          );
       });
+
+      Bus.$on('location_init', results=>{
+        this.formatAddress=results[0].formatted_address;
+      });
+
+      Bus.$on('location_changed', place=>{
+        this.formatAddress=place.formatted_address;
+      })
     },
+
+    methods:{
+        set_address: function(address){
+            this.formatAddress=address;
+        }
+    }
 });

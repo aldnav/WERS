@@ -11,10 +11,19 @@
 |
 */
 
+// Route::get('/', function () {
+//     return view('front');
+// });
+
 Route::get('/', function () {
-    return view('front');
+    return view('responder');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/signin',function(){
+	return view('auth/login');
+});
+
