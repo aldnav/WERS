@@ -11,13 +11,13 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('front');
-// });
-
 Route::get('/', function () {
-    return view('responder');
+    return view('front');
 });
+
+// Route::get('/', function () {
+//     return view('responder');
+// });
 
 Auth::routes();
 

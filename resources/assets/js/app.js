@@ -35,6 +35,7 @@ Vue.component('incident-map', require('./components/IncidentMap.vue'));
 Vue.component('place-search', require('./components/PlaceSearch.vue'));
 Vue.component('modal', require('./components/ModalComponent.vue'));
 Vue.component('responder-map', require('./components/ResponderMapComponent.vue'));
+Vue.component('stat', require('./components/Quickstats.vue'));
 
 
 const app = new Vue({
@@ -86,3 +87,11 @@ const app = new Vue({
         }
     }
 });
+
+
+// const app = new Vue({
+//     el: '#app'
+// });
+
+
+$('#navbarDropdown').dropdown();

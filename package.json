@@ -16,10 +16,12 @@
         "jquery": "^3.2",
         "laravel-mix": "^1.0",
         "lodash": "^4.17.10",
+        "popper": "^1.0.1",
         "vue": "^2.5.16"
     },
     "dependencies": {
         "vue-sweetalert2": "^1.2.4",
-        "vue2-google-maps": "^0.9.6"
+        "vue2-google-maps": "^0.9.6",
+        "popper.js": "^1.14.3"
     }
 }

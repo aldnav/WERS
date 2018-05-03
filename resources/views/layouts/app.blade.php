@@ -15,7 +15,8 @@
 </head>
 <body>
   <div id="app">
-        <nav class="navbar navbar-expand-md">
+
+    <nav class="navbar navbar-expand-md">
       <a class="navbar-brand" href="#">WERS</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -23,21 +24,6 @@
 
       @yield('add_report')
             
-       @if (Auth::guest())
-          <a href="{{ route('login') }}" class="nav-link">Login</a>
-         <a href="{{ route('register') }}" class="nav-link">Register</a>
-      @else
-          <a href="#">Notifications</a><span>&nbsp;</span>
-          <a href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
-
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                        style="display: none;">
-                      {{ csrf_field() }}
-                  </form>          
-      @endif
-
-    </nav>
-
               <modal v-if="showModal" @close="showModal = false">
               <template slot='header'>
                 <div class="panel-default clearfix">
@@ -58,6 +44,34 @@
               </template>
             </modal>
 
+      <div class="quick-stats mr-auto">
+        <stat></stat>
+      </div>
+      <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </div>
+      <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align"><i class="fas fa-plus-circle" id="show-modal" @click="showModal=true" ></i></button>
+      @if(!Auth::guest())
+      <a href="#"><i class="fas fa-bell js-notifications"></i></a>
+      <a href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+              style="display: none;">
+            {{ csrf_field() }}
+        </form>          
+
+      @else
+      <button href="{{ route('login') }}" type="button" class="btn btn-primary btn-sm js-login"><i class="fas fa-sign-in-alt"></i> &nbsp;Log in</button>
+      @endif
+    </nav>
     @yield('content')
   </div>
     <!-- Scripts -->
