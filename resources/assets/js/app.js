@@ -22,3 +22,6 @@ Vue.component('stat', require('./components/Quickstats.vue'));
 const app = new Vue({
     el: '#app'
 });
+
+
+$('#navbarDropdown').dropdown();
