@@ -36,15 +36,22 @@ Vue.component('place-search', require('./components/PlaceSearch.vue'));
 Vue.component('modal', require('./components/ModalComponent.vue'));
 Vue.component('responder-map', require('./components/ResponderMapComponent.vue'));
 Vue.component('stat', require('./components/Quickstats.vue'));
+Vue.component('report-list', require('./components/ReportList.vue'));
+Vue.component('report-validate-detail', require('./components/ReportValidateDetail.vue'));
 
+
+window.INCIDENTS = ['FIRE', 'FLOOD', 'ROAD ACCIDENT', 'LANDSLIDE'];
 
 const app = new Vue({
     el: '#app',
     data:{
-    	showModal:false,
+        showModal:false,
+        showReports: false,
+        showSpecificReport: false,
     	mapLat:0,
     	mapLng:0,
         formatAddress:null,
+        selectedReport: null,
     },
     created(){
       Bus.$on('marker_changed', place=>{
@@ -79,11 +86,31 @@ const app = new Vue({
       Bus.$on('location_changed', place=>{
         this.formatAddress=place.formatted_address;
       })
+
+      Bus.$on('selectReport', o=> {
+          this.selectedReport = o;
+          this.showReports = false;
+          this.showSpecificReport = true;
+      });
     },
 
     methods:{
         set_address: function(address){
             this.formatAddress=address;
+        },
+
+        selectReport: function(o) {
+            console.log(o);
+        }
+    },
+
+    watch: {
+        // noqa
+        showReports: function(newVal, oldVal) {
+        },
+
+        showModal: function(newVal, oldVal) {
+            newVal && this.showReports ? this.showReports = false : null;
         }
     }
 });

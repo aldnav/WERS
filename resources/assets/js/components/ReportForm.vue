@@ -45,7 +45,7 @@
           <div class="form-group row">
             <label class="col-sm-4">Contact Number</label>
             <div class="col-sm-8">
-              <input id="contact_number" placeholder="Contact Number" name="contact_number" class="form-control" v-model="report.contact_number">
+              <input id="contact_number" placeholder="Contact Number" name="contact_number" class="form-control" v-model="report.contact_number" required>
             </div>
           </div>
           <hr></hr>
@@ -141,18 +141,18 @@
 
 
           //validate, save and show success message
-          sendReport: function(){
-            if(this.report.lat && this.report.body && this.report.incident_id){ 
+          sendReport: function(event){
+            if(this.report.lat && this.report.body && this.report.incident_id && this.report.contact_number){ 
               axios.post('/api/saveOrUpdate', this.report);
               this.$swal({text:"Report submitted!",icon:"success", timer:1000,});;  
                 this.$emit('close');
             } else {
-
               this.errors = [];
               if(!this.report.body) this.errors.push("Fill in details of incident.");
               if(!this.report.lat) this.errors.push("Specify the location of incident.");
               if(!this.report.incident_id) this.errors.push("Specify type of incident.");
-              e.preventDefault();
+              if(!this.report.contact_number) this.errors.push("Contact number is required.");
+              event.preventDefault();
             }
             
           },
