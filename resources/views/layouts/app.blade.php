@@ -22,26 +22,6 @@
       </button>
 
       @yield('add_report')
-            
-              <modal v-if="showModal" @close="showModal = false">
-              <template slot='header'>
-                <div class="panel-default clearfix">
-                  <h5 class="panel-title float-left">Add Report</h5>
-                  <button type="button" class="close float-right" aria-label="Close" @click="showModal = false"><span aria-hidden="true">&times;</span></button>
-                </div>
-              </template>
-              <template slot='body'>
-                  @if(Auth::guest())  
-                  <div class="panel-body">                
-                    <report-form :user-id= "''" :user-contact="''" @close="showModal = false"></report-form>
-                  </div>
-                  @else
-                  <div class="panel-body">
-                    <report-form :user-id= "{{ Auth::id() }}" @close="showModal = false"></report-form>
-                  </div>
-                  @endif
-              </template>
-            </modal>
 
       <div class="quick-stats mr-auto">
         <stat></stat>
@@ -57,7 +37,7 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </div>
-      <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align"><i class="fas fa-plus-circle" id="show-modal" @click="showModal=true" ></i></button>
+      <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align" v-on:click="showModal=true"><i class="fas fa-plus-circle" id="show-modal"></i></button>
       @if(!Auth::guest())
       <a href="#"><i class="fas fa-bell js-notifications"></i></a>
       <a href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
