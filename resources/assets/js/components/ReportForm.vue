@@ -1,20 +1,14 @@
 <template>
   <transition name="modal">
     <div class="form-horizontal">
-      
-        
          <p v-if="errors.length">
           <b>Please correct the following error(s):</b>
-          <ul>
-            <li v-for="error in errors">{{ error }}</li>
-          </ul>
+          <div v-for="error in errors" class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
         </p>
-        <div style="z-index: 9999; width:100%">
-        <input ref="autocomplete" 
-        placeholder="Search" 
-        class="search-location"
-        onfocus="value = ''" 
-        type="text" />
+        <!-- <div style="z-index: 9999; width:100%"> -->
+        
         <!-- <place-search></place-search> -->
         <!-- <div class="input-group__input">
           <gmap-autocomplete placeholder="Please enter location of incident." classname="form-control" class='autocomplete' style="min-width:400px; border-radius: 2px;" @place_changed="getPlace">
@@ -25,23 +19,37 @@
         <div class="form-group">
             <textarea id="body" name="body" class="form-control" placeholder="What is this report about? (e.g. Fire on bldg...)" v-model="report.body" style="width:100%"></textarea>  
         </div>
-          <div class="form-group">  
-            <div class="dropdown theme-dropdown clearfix">
-              <select id="incident_id" class="form-control right-align" name="incident_id" v-model="report.incident_id">
-                <option disabled value="null">Nature of Incident</option>
-                 <option  v-for="incident in incidents" v-bind:value="incident.id" v-text="incident.name"></option>
-              </select>
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <label>Nature of Incident</label>
+               <div class="dropdown theme-dropdown clearfix">
+                <select id="incident_id" class="form-control right-align" name="incident_id" v-model="report.incident_id">
+                  <option disabled value="null">Nature of Incident</option>
+                  <option  v-for="incident in incidents" v-bind:value="incident.id" v-text="incident.name"></option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label>Location</label>&nbsp;&nbsp;<i class="fas fa-info-circle" title="Leave blank to set location on map"></i>
+              <input ref="autocomplete" 
+              placeholder="Search" 
+              class="search-location form-control"
+              onfocus="value = ''" 
+              type="text" />
             </div>
           </div>
           <div class="form-group">
               <input id="owner_id" name="owner_id" :userId="userId" class="controls" hidden="true" v-model="report.owner_id">  
           </div>
 
-          <div class="form-group">
-              <input id="contact_number" placeholder="Contact Number" name="contact_number" class="controls" v-model="report.contact_number">  
+          <div class="form-group row">
+            <label class="col-sm-4">Contact Number</label>
+            <div class="col-sm-8">
+              <input id="contact_number" placeholder="Contact Number" name="contact_number" class="form-control" v-model="report.contact_number">
+            </div>
           </div>
-
-           <button  type="submit" class="btn btn-success" v-on:click="sendReport">Send Report</button> 
+          <hr></hr>
+           <button  type="submit" class="btn btn-primary" v-on:click="sendReport">Send Report</button> 
 
           </div>
     </div>
