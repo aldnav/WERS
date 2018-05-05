@@ -51,7 +51,7 @@
         </form>          
 
       @else
-      <button href="{{ route('login') }}" type="button" class="btn btn-primary btn-sm js-login"><i class="fas fa-sign-in-alt"></i> &nbsp;Log in</button>
+      <a href="{{ route('login') }}" type="button" class="btn btn-primary btn-sm js-login"><i class="fas fa-sign-in-alt"></i> &nbsp;Log in</a>
       @endif
     </nav>
     @yield('content')

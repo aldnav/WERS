@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
 <div class="container">
@@ -8,6 +8,9 @@
                 <div class="panel-heading">Register</div>
 
                 <div class="panel-body">
+                    <a href="/">
+                        <h2 class="text-center"><strong>WERS</strong></h2>
+                    </a>
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
@@ -98,6 +101,9 @@
                                 <button type="submit" class="btn btn-primary">
                                     Register
                                 </button>
+                                <a class="btn btn-link" href="{{ route('login') }}">
+                                    Already have an account
+                                </a>
                             </div>
                         </div>
                     </form>
