@@ -12,6 +12,7 @@
 @import "navbar";
 @import "quickstats";
 @import "maps";
+@import "report_modal";
 
 #map {
     width: 100%;
@@ -25,4 +26,8 @@ a.navbar-brand {
 
 .search-form input {
     font-size: 12px;
+}
+
+.btn-primary {
+    background-color: #2D9CDB;
 }

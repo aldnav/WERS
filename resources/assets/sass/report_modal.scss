@@ -1,0 +1,17 @@
+$panel-header-bg: #4E525B;
+
+
+.modal-container {
+    background-color: #ffffff;
+    padding: 0;
+}
+
+.panel-header {
+    background-color: $panel-header-bg;
+    color: #fff;
+    padding: 12px;
+}
+
+.panel-body {
+    padding: 6px;
+}
