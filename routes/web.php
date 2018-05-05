@@ -27,3 +27,6 @@ Route::get('/signin',function(){
 	return view('auth/login');
 });
 
+Route::get('/user-reports', 'ReportPersonalController@userReports');
+Route::get('/user-reports/user-info/{id}', 'ReportPersonalController@getUserInfo');
+Route::post('/user-reports/validate/{id}/{userid}/{resolve?}', 'ReportPersonalController@validate');
