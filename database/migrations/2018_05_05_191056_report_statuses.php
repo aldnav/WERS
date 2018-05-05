@@ -16,6 +16,8 @@ class ReportStatuses extends Migration
         Schema::table('reports', function (Blueprint $table) {
             $table->boolean('is_validated')->default(0);
             $table->boolean('is_resolved')->default(0);
+            $table->boolean('is_rejected')->default(0);
+            $table->string('resolution_note')->default('');
         });
     }
 
