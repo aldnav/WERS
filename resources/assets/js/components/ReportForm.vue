@@ -1,0 +1,154 @@
+<template>
+  <transition name="modal">
+    <div class="form-horizontal">
+      
+        
+         <p v-if="errors.length">
+          <b>Please correct the following error(s):</b>
+          <ul>
+            <li v-for="error in errors">{{ error }}</li>
+          </ul>
+        </p>
+        <div style="z-index: 9999; width:100%">
+        <input ref="autocomplete" 
+        placeholder="Search" 
+        class="search-location"
+        onfocus="value = ''" 
+        type="text" />
+        <!-- <place-search></place-search> -->
+        <!-- <div class="input-group__input">
+          <gmap-autocomplete placeholder="Please enter location of incident." classname="form-control" class='autocomplete' style="min-width:400px; border-radius: 2px;" @place_changed="getPlace">
+          </gmap-autocomplete>
+        </div>
+        </div> -->
+        <input type="hidden" name="_token" id="csrf-token" :value="csrf" />
+        <div class="form-group">
+            <textarea id="body" name="body" class="form-control" placeholder="What is this report about? (e.g. Fire on bldg...)" v-model="report.body" style="width:100%"></textarea>  
+        </div>
+          <div class="form-group">  
+            <div class="dropdown theme-dropdown clearfix">
+              <select id="incident_id" class="form-control right-align" name="incident_id" v-model="report.incident_id">
+                <option disabled value="null">Nature of Incident</option>
+                 <option  v-for="incident in incidents" v-bind:value="incident.id" v-text="incident.name"></option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+              <input id="owner_id" name="owner_id" :userId="userId" class="controls" hidden="true" v-model="report.owner_id">  
+          </div>
+
+          <div class="form-group">
+              <input id="contact_number" placeholder="Contact Number" name="contact_number" class="controls" v-model="report.contact_number">  
+          </div>
+
+           <button  type="submit" class="btn btn-success" v-on:click="sendReport">Send Report</button> 
+
+          </div>
+    </div>
+  </transition>
+</template>
+ 
+<script>
+    export default {
+          props:{
+            userId:''
+          },
+
+         data() {
+            return{
+                csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                selected:null,
+                incidents:[],
+                errors:[],
+                town:null,
+                report:{
+                  incident_id:null,
+                  owner_id:this.userId,
+                  body:"",
+                  //initial value would be the geolocation of user
+                  lat:this.$root.$data.mapLat,    
+                  lng:this.$root.$data.mapLng,
+                  status:0,
+                  contact_number:'',
+                  address:this.$root.$data.formatAddress
+                },
+                submitted:false
+            };
+        },   
+        
+        mounted: function(){
+          this.fetchIncidents();
+          this.fetchContactNo();
+          this.autocomplete = new google.maps.places.Autocomplete(
+            (this.$refs.autocomplete),
+            {types: ['geocode']}
+          );
+
+          this.autocomplete.addListener('place_changed', () => {
+            let place = this.autocomplete.getPlace();
+            let ac = place.address_components;
+            let city = ac;
+
+            let center = {
+              lat: place.geometry.location.lat(),
+              lng: place.geometry.location.lng()
+            };
+            this.center = center; 
+            Bus.$emit('marker_changed',center);
+            Bus.$emit('location_changed',place);
+          });
+
+        },
+
+        //marker change listeners
+        created(){
+          Bus.$on('marker_dragged', place=>{
+            this.report.lng = place.lng();
+            this.report.lat = place.lat();
+            console.log("places:");
+            console.log(place);
+            this.report.address=this.$root.$data.formatAddress;
+          });
+
+          Bus.$on('marker_changed', place=>{
+            this.report.lng = place.lng;
+            this.report.lat = place.lat;
+            console.log("places:");
+            console.log(place.formatted_address);
+
+          });
+
+        },
+
+        methods: {
+          fetchIncidents: function() {
+            axios.get('/api/incidentTypes').then(response => {this.incidents = response.data.incidents});
+            console.log(this.incidents);
+          },
+
+          fetchContactNo: function() {
+            axios.get('/api/userContact', this.userId).then(response => {this.report.contact_number = response.result});
+              console.log(this.report.contact_number);
+          },
+
+
+          //validate, save and show success message
+          sendReport: function(){
+            if(this.report.lat && this.report.body && this.report.incident_id){ 
+              axios.post('/api/saveOrUpdate', this.report);
+              this.$swal({text:"Report submitted!",icon:"success", timer:1000,});;  
+                this.$emit('close');
+            } else {
+
+              this.errors = [];
+              if(!this.report.body) this.errors.push("Fill in details of incident.");
+              if(!this.report.lat) this.errors.push("Specify the location of incident.");
+              if(!this.report.incident_id) this.errors.push("Specify type of incident.");
+              e.preventDefault();
+            }
+            
+          },
+
+        }
+    };
+</script>

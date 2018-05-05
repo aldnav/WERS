@@ -39,13 +39,14 @@ class LoginController extends Controller
 
     // public function login(Request $data)
     // {
-    //     $user = 
-    //     $data['email'],
+    //     $user =  $data['email'],
     //     bcrypt($data['password']),
     // }
 
-    public function username()
-    {
-        return 'username';
-    }
+
+    //cannot log in when this is included
+    // public function username()
+    // {
+    //     return 'username';
+    // }
 }
