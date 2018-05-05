@@ -15,7 +15,6 @@
 </head>
 <body>
   <div id="app">
-
     <nav class="navbar navbar-expand-md">
       <a class="navbar-brand" href="#">WERS</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +74,7 @@
     @yield('content')
   </div>
     <!-- Scripts -->
-  <script src="{{ asset('js/app.js') }}"></script>    
+  <script src="{{ asset('js/app.js') }}"></script>
 
 </body>
     <script crossorigin="anonymous" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
