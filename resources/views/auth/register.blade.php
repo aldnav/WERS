@@ -82,10 +82,10 @@
                             <label for="user_role" class="col-md-4 control-label">User Role</label>
 
                             <div class="col-md-6">
-                                <select id="user_role" type="user_role" name="user_role" value="{{ old('user_role') }}" required>
+                                <select id="user_role" type="user_role" name="user_role" value="{{ old('user_role') }}" required class="form-control">
                                     <option value="0">Reporter</option>
                                     <option value="1">Responder</option>
-                                    <option value="2">Team</option>
+                                    <!-- <option value="2">Team</option> -->
                                 </select>
                                 @if ($errors->has('user_role'))
                                     <span class="help-block">
