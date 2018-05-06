@@ -1,9 +1,9 @@
 <template>
-    <ul>
-        <li v-for="report in reports" v-bind:data-id="report.id" v-on:click="reviewReport">
-            {{ report.body }}
-        </li>
-    </ul>
+<div>
+    <div v-for="report in reports" v-bind:key="report.id">
+        <a v-bind:data-id="report.id" v-on:click="reviewReport">{{ report.body }}</a>
+    </div>
+</div>
 </template>
 
 <script>

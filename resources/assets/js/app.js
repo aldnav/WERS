@@ -92,6 +92,16 @@ const app = new Vue({
           this.showReports = false;
           this.showSpecificReport = true;
       });
+
+      Bus.$on('dismiss', flag=> {
+          if (flag)
+            this[flag] = false;
+          else {
+              this.showModal = false;
+              this.showSpecificReport = false;
+              this.showReports = false;
+          }
+      });
     },
 
     methods:{

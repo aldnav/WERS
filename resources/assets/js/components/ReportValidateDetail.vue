@@ -24,16 +24,33 @@
             <button type="button" class="btn btn-success">Contact User</button>
         </div>
     </div>
+    <template v-if="resolution_show">
+    <hr>
+    <div class="row">
+        <div class="col">
+            <label for="resolution_note">How is this report resolved?</label>
+            <textarea class="form-control" name="resolution_note" id="resolution_note" rows="4" v-model="resolution_note"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-pull-right">
+            <button type="button" class="btn btn-link" v-on:click="cancelAction"><i class="fas fa-long-arrow-alt-left"></i>&nbsp;Cancel</button>
+            <button type="button" class="btn btn-primary" v-on:click="continueAction">Confirm</button>
+        </div>
+    </div>
+    </template>
+    <template v-else>
     <hr>
     <div class="row no-gutters">
         <div class="col-md-6">
             <button type="button" class="btn btn-primary" v-on:click="validate(0)">Validate</button>
-            <button type="button" class="btn btn-primary" v-on:click="validate(1)"><small>Validate and Resolve</small></button>
+            <button type="button" class="btn btn-primary" v-on:click="unsafePost('validate')"><small>Validate and Resolve</small></button>
         </div>
         <div class="col-md-6">
-            <button type="button" class="btn btn-light float-right">Reject</button>
+            <button type="button" class="btn btn-light float-right" v-on:click="unsafePost('reject')">Reject</button>
         </div>
     </div>
+    </template>
 </div>
 </template>
 
@@ -50,6 +67,9 @@ export default {
                 avatar: ''
             },
             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            resolution_note: '',
+            resolution_show: false,
+            pending_action: null
         }
     },
 
@@ -64,15 +84,61 @@ export default {
 
         getReporterInfo: function() {
             axios.get('/user-reports/user-info/' + this.report.owner_id).then(response=>{
-                console.log(response);
                 this.owner = response.data
             })
         },
 
+        unsafePost(action) {
+            this.resolution_show = true;
+            $('#resolution_note').focus();
+
+            this.pending_action = action;
+        },
+
+        continueAction() {
+            if (this.pending_action == 'validate')
+                this.toValidate();
+            else if (this.pending_action == 'reject')
+                this.toReject();
+        },
+
+        cancelAction() {
+            this.pending_action = null;
+            this.resolution_show = false;
+        },
+
         validate: function(resolve) {
-            axios.post('/user-reports/validate/' + this.report.id + '/' + this.report.owner_id + '/' + resolve)
-                .then(response => { console.log(response) })
+            axios.post('/user-reports/validate/' + this.report.id + '/' + this.report.owner_id + '/' + resolve,
+                {
+                    resolution_note: this.resolution_note
+                })
+                .then(response => {
+                    this.$swal({text:"Report submitted!", icon:"success", timer:1000});
+                    Bus.$emit('dismiss');
+                })
                 .catch(response => { console.log(response) });
+        },
+
+        toValidate() {
+            if (this.resolution_note.length > 0)
+                this.validate(1);
+        },
+
+        reject() {
+            axios.post('/user-reports/reject/' + this.report.id + '/' + this.report.owner_id,
+                {
+                    resolution_note: this.resolution_note
+                })
+                .then(response => {
+                    this.$swal({text:"Report rejected!", icon:"success", timer:1000});
+                    Bus.$emit('dismiss');
+                })
+                .catch(response => { console.log(response) });
+        },
+
+        toReject() {
+            if (this.resolution_note.length > 0)
+                this.reject();
         }
 
     },
