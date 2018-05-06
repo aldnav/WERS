@@ -18,7 +18,7 @@ window.Bus = new Vue;
 Vue.use(VueSweetalert2);
 Vue.use(VueGoogleMaps, {
     load: {
-        key: 'AIzaSyC-mUjFEzHGa0MK-tOQwEwDq8_pwddb1WI',
+        key: process.env.GMAPS || 'AIzaSyC-mUjFEzHGa0MK-tOQwEwDq8_pwddb1WI',
         libraries: 'places', 
     }
 });

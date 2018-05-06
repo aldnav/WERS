@@ -31,3 +31,7 @@ a.navbar-brand {
 .btn-primary {
     background-color: #2D9CDB;
 }
+
+select.form-control:not([size]):not([multiple]) {
+    height: auto !important;
+}

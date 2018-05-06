@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -8,9 +8,6 @@
                 <div class="panel-heading">Register</div>
 
                 <div class="panel-body">
-                    <a href="/">
-                        <h2 class="text-center"><strong>WERS</strong></h2>
-                    </a>
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
@@ -64,35 +61,17 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('contact_number') ? ' has-error' : '' }}">
-                            <label for="contact_number" class="col-md-4 control-label">Contact Number</label>
-
-                            <div class="col-md-6">
-                                <input id="contact_number" type="contact_number" class="form-control" name="contact_number" value="{{ old('contact_number') }}" required>
-
-                                @if ($errors->has('contact_number'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('contact_number') }}</strong>
-                                    </span>
-                                @endif
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Register
+                                </button>
                             </div>
                         </div>
-
-                         <div class="form-group{{ $errors->has('user_role') ? ' has-error' : '' }}">
-                            <label for="user_role" class="col-md-4 control-label">User Role</label>
-
-                            <div class="col-md-6">
-                                <select id="user_role" type="user_role" name="user_role" value="{{ old('user_role') }}" required class="form-control">
-                                    <option value="0">Reporter</option>
-                                    <option value="1">Responder</option>
-                                    <!-- <option value="2">Team</option> -->
-                                </select>
-                                @if ($errors->has('user_role'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('user_role') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

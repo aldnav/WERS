@@ -97,7 +97,7 @@
 </modal>
 @endsection
 
-@if(Auth::user()->user_role==1)
+@if(!Auth::guest() AND Auth::user()->user_role==1)
     @section('validate_report')
     <modal v-if="showSpecificReport" @close="showSpecificReport = false">
         <template slot='header'>
