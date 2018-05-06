@@ -1,0 +1,31 @@
+$swans: #d4e4ec;
+$ice: #DBEDE6;
+
+.af-yellow {
+    color: #ffc107;
+}
+
+.af-green {
+    color: #28a745;
+}
+
+.notif-modal .modal-container {
+    width: 360px;
+}
+
+.notification-item {
+    padding: 20px 35px;
+    border-top: 0.5px solid $ice;
+    cursor: pointer;
+
+    
+}
+
+.notification-item--unread {
+    background-color: $swans;
+    transition: 0.25s all ease;
+    
+    &:hover {
+        background-color: lighten($swans, 5%);
+    }
+}

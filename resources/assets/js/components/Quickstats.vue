@@ -42,7 +42,7 @@
             // get report stats for today (last 24 hours)
             axios.get('/stats/')
                 .then(response => {
-                    let results = response.data.result;
+                    let results = response.result;
                     if (results) {
                         results.forEach((el, i) => el.index = i);
                         this.stats = results;

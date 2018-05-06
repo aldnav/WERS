@@ -25,8 +25,8 @@
 	        </div>
 	      </template>
 	      <template slot='body'>
-	          @if(Auth::guest())  
-	          <div class="panel-body">                
+	          @if(Auth::guest())
+	          <div class="panel-body">
 	            <report-form :user-id= "''" :user-contact="''" @close="showModal = false"></report-form>
 	          </div>
 	          @else
@@ -36,8 +36,8 @@
 	          @endif
 	      </template>
 	    </modal>
-		<div class="row flex-xl-nowrap">	
-			@if(Auth::guest())    
+		<div class="row flex-xl-nowrap">
+			@if(Auth::guest())
             	<sidebar :user-id="''" :responder="false"></sidebar>
             @else
             	<sidebar :user-id="{{ Auth::id() }}" :responder="false"></sidebar>
@@ -61,8 +61,8 @@
     </div>
     </template>
     <template slot='body'>
-        @if(Auth::guest())  
-        <div class="panel-body">                
+        @if(Auth::guest())
+        <div class="panel-body">
         <report-form :user-id= "''" :user-contact="''" @close="showModal = false"></report-form>
         </div>
         @else
@@ -83,8 +83,8 @@
     </div>
     </template>
     <template slot='body'>
-        @if(Auth::guest())  
-        <div class="panel-body">                
+        @if(Auth::guest())
+        <div class="panel-body">
         No reports here.
         </div>
         @else
@@ -107,8 +107,8 @@
         </div>
         </template>
         <template slot='body'>
-            @if(Auth::guest())  
-            <div class="panel-body">                
+            @if(Auth::guest())
+            <div class="panel-body">
             No reports here.
             </div>
             @else
@@ -121,3 +121,27 @@
     </modal>
     @endsection
 @endif
+
+
+@section('notifications')
+<modal v-if="showNotifications" @close="showNotifications = false" class="notif-modal">
+    <template slot='header'>
+    <div class="panel-default clearfix">
+        <h5 class="panel-title float-left">Notifications</h5>
+        <button type="button" class="close float-right" aria-label="Close" @click="showNotifications = false"><span aria-hidden="true">&times;</span></button>
+    </div>
+    </template>
+    <template slot='body'>
+        @if(Auth::guest())
+        <div class="panel-body">
+        No notifications here.
+        </div>
+        @else
+        <div class="panel-body">
+            <notifications></notifications>
+        </ul>
+        </div>
+        @endif
+    </template>
+</modal>
+@endsection

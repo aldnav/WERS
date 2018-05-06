@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12 col-md-3 col-xl-2 bd-sidebar" style="overflow-y:auto; height: 98vh">
+    <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
         <div class="filters">
           <gmap-autocomplete style="width: 100%;" placeholder="Enter your location" 
             @place_changed="setPlace" :component-restrictions="{country:['PH']}">
@@ -34,9 +34,8 @@
               <i class="fas fa-sort-amount-down" @click="sortOrder='desc'"></i>
             </button>
           </form>
-          
-    </div>
-        <div v-for="(item,i) in sortedResults">
+        </div>
+        <div v-bind:key="i" v-for="(item,i) in sortedResults">
             <h6 :key="i"
                 @click="focusMarker(i)"
                 style="text-decoration: underline">{{item.incident}}</h6>

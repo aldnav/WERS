@@ -35,3 +35,4 @@ Route::post('/user-reports/reject/{id}/{userid}', 'ReportPersonalController@reje
 
 
 Route::get('/stats/', 'ReportPersonalController@stats');
+Route::get('/notifications/unread', 'NotificationController@getUnread');

@@ -42,6 +42,7 @@ Vue.component('responder-map', require('./components/ResponderMapComponent.vue')
 Vue.component('stat', require('./components/Quickstats.vue'));
 Vue.component('report-list', require('./components/ReportList.vue'));
 Vue.component('report-validate-detail', require('./components/ReportValidateDetail.vue'));
+Vue.component('notifications', require('./components/Notifications.vue'));
 
 
 window.INCIDENTS = ['FIRE', 'FLOOD', 'ROAD ACCIDENT', 'LANDSLIDE'];
@@ -52,8 +53,9 @@ const app = new Vue({
         showModal:false,
         showReports: false,
         showSpecificReport: false,
-      mapLat:0,
-      mapLng:0,
+        showNotifications: false,
+    	mapLat:0,
+    	mapLng:0,
         formatAddress:null,
         selectedReport: null,
     },
