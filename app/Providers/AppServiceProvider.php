@@ -13,7 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \App\Ticket::created(function($ticket) {
+            \App\Notification::notify(
+                $ticket->responder_id,
+                'assigned',
+                $ticket->id,
+                'ticket');
+        });
     }
 
     /**
