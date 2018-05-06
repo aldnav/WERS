@@ -26,4 +26,15 @@ class NotificationController extends Controller
             'result' => $unreadCount
         ]);
     }
+
+    public function read(Authenticatable $user, $notifId) {
+        $notif = Notification::where('owner_id', $user->id)
+                             ->where('id', $notifId)->first();
+        $notif->is_read = true;
+        $notif->save();
+        
+        return response()->json([
+            'result' => $notif
+        ]);
+    }
 }

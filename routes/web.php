@@ -36,5 +36,5 @@ Route::post('/user-reports/reject/{id}/{userid}', 'ReportPersonalController@reje
 
 Route::get('/stats/', 'ReportPersonalController@stats');
 Route::get('/notifications/unread', 'NotificationController@getUnread');
-Route::post('/notifications/unread', 'NotificationController@read');
+Route::post('/notifications/read/{id}', 'NotificationController@read');
 Route::get('/notifications/unread/count', 'NotificationController@getUnreadCount');

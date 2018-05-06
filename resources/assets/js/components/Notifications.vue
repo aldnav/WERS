@@ -3,10 +3,12 @@
       <div class="notifications-list">
           <div class="notification-item"
             v-bind:key="notification.id"
+            v-bind:data-key="notification.id"
             v-bind:class="{ 'notification-item--unread': !notification.is_read }"
             v-for="notification in unreadNotifications">
             <span><i :class="notification.icon"></i></span>
             <span>{{ notification.template }}</span>
+            <span class="read-mark" v-on:click="readNotification(notification.id)"><i class="fas fa-circle"></i></span>
           </div>
       </div>
   </div>
@@ -46,6 +48,14 @@
                             this.setTemplateMessage(o);
                         });
                         this.unreadNotifications = result;
+                    });
+            },
+
+            readNotification(id) {
+                axios.post('/notifications/read/' + id)
+                    .then(response => {
+                        this.unreadNotifications--;
+                        this.fetchNotifications('unread');
                     });
             },
 

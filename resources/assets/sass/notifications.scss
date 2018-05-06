@@ -17,8 +17,7 @@ $ice: #DBEDE6;
     padding: 20px 35px;
     border-top: 0.5px solid $ice;
     cursor: pointer;
-
-    
+    position: relative;
 }
 
 .notification-item--unread {
@@ -28,4 +27,16 @@ $ice: #DBEDE6;
     &:hover {
         background-color: lighten($swans, 5%);
     }
+
+    .read-mark {
+        color: #477698;
+    }
+}
+
+.read-mark {
+    position: absolute;
+    color: transparent;
+    right: 6px;
+    top: 6px;
+    font-size: 10px;
 }
