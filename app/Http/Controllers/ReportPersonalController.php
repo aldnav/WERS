@@ -31,23 +31,60 @@ class ReportPersonalController extends Controller
     }
 
     public function validate(Request $request, $id, $userid, $resolve = 0) {
-        $report = Report::find($id)->where('owner_id', '=', $userid)->first();
+
+        $report = Report::find($id);
+
+        $ticket = Report::find($id)->ticket;
         $report->is_validated = true;
+        
         if ($resolve == 1) {
             $report->is_resolved = true;
+            $ticket->status = 3;
+        }else{
+           $ticket->status = 2;
         }
         if ($request->resolution_note) {
             $report->resolution_note = 'Validated.' . $request->resolution_note;
         }
+        $ticket->save();
+
+
         $report->save();
+        return response()->json(['result'=>$ticket]);
     }
 
     public function reject(Request $request, $id, $userid) {
-        $report = Report::find($id)->where('owner_id', '=', $userid)->first();
+        $report = Report::find($id);
+        $ticket = Report::find($id)->ticket;
         $report->is_rejected = true;
+        $ticket->status=2;
         if ($request->resolution_note) {
             $report->resolution_note = 'Rejected.' . $request->resolution_note;
         }
         $report->save();
+        $ticket->save();
     }
+
+     //Report
+        //isvalidated
+        //isresolved
+
+        //Ticket
+        //0 - rejected
+        //1 - unassigned
+        //2 - assigned
+        //3 - resolved
+
+        //validate:
+        //isvalidated=true
+        //ticket status = 2 (assigned)
+        
+        //validate and resolve:
+        //isvalidated = true;
+        //isresolved = true
+        //ticket resolved = 3 (resolved)
+
+        //rejected:
+        //ticket status = 0
+        //report isrejected = true
 }

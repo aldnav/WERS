@@ -22,9 +22,9 @@
       </button>
 
       @yield('add_report')
+
       @yield('reports')
       @yield('validate_report')
-
       <div class="quick-stats mr-auto">
         <stat></stat>
       </div>
@@ -39,7 +39,9 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </div>
-      <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align" v-on:click="showModal=true"><i class="fas fa-plus-circle" id="show-modal"></i></button>
+
+      @yield('add_button')
+      
       @if(!Auth::guest())
       <a href="#" v-on:click="showReports=true" class="navbar-actions"><i class="fas fa-flag"></i></a>
       <a href="#"><i class="fas fa-bell js-notifications"></i></a>

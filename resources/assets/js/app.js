@@ -88,6 +88,7 @@ const app = new Vue({
       })
 
       Bus.$on('selectReport', o=> {
+          console.log("Report:",o);
           this.selectedReport = o;
           this.showReports = false;
           this.showSpecificReport = true;

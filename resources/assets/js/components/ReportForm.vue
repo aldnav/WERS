@@ -45,7 +45,7 @@
           <div class="form-group row">
             <label class="col-sm-4">Contact Number</label>
             <div class="col-sm-8">
-              <input id="contact_number" placeholder="Contact Number" name="contact_number" class="form-control" v-model="report.contact_number" required>
+              <input id="contact_number" placeholder="Contact Number" name="contact_number" class="form-control"  :contact-number="contactNumber" v-model="report.contact_number" required>
             </div>
           </div>
           <hr></hr>
@@ -59,7 +59,8 @@
 <script>
     export default {
           props:{
-            userId:''
+            userId:'',
+            contactNumber:'',
           },
 
          data() {
@@ -68,7 +69,6 @@
                 selected:null,
                 incidents:[],
                 errors:[],
-                town:null,
                 report:{
                   incident_id:null,
                   owner_id:this.userId,
@@ -77,7 +77,7 @@
                   lat:this.$root.$data.mapLat,    
                   lng:this.$root.$data.mapLng,
                   status:0,
-                  contact_number:'',
+                  contact_number:this.contactNumber,
                   address:this.$root.$data.formatAddress
                 },
                 submitted:false
@@ -86,7 +86,6 @@
         
         mounted: function(){
           this.fetchIncidents();
-          this.fetchContactNo();
           this.autocomplete = new google.maps.places.Autocomplete(
             (this.$refs.autocomplete),
             {types: ['geocode']}
@@ -96,7 +95,6 @@
             let place = this.autocomplete.getPlace();
             let ac = place.address_components;
             let city = ac;
-
             let center = {
               lat: place.geometry.location.lat(),
               lng: place.geometry.location.lng()
@@ -104,12 +102,14 @@
             this.center = center; 
             Bus.$emit('marker_changed',center);
             Bus.$emit('location_changed',place);
+            Bus.$emit('location_added',center);
           });
 
         },
 
         //marker change listeners
         created(){
+//         this.fetchContactNo();
           Bus.$on('marker_dragged', place=>{
             this.report.lng = place.lng();
             this.report.lat = place.lat();
@@ -134,10 +134,10 @@
             console.log(this.incidents);
           },
 
-          fetchContactNo: function() {
-            axios.get('/api/userContact', this.userId).then(response => {this.report.contact_number = response.result});
-              console.log(this.report.contact_number);
-          },
+          // fetchContactNo: function() {
+          //   axios.get('/userContact').then(response => {this.report.contact_number = response.data.result});
+          //     console.log("Contact number",this.report.contact_number);
+          // },
 
 
           //validate, save and show success message

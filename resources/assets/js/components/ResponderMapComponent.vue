@@ -32,19 +32,19 @@ export default {
       components:{
           'info-content':InfoContent
       },
-        mounted() {
-            this.initMap();
-        },
+        // mounted() {
+        //     this.initMap();
+
+        // },
 
         data(){
           return {
             center: {
-              lat:14.680000,
-              lng:121.010000
+              lat:'',
+              lng:''
             },
             zoom:12,
             markers:[],
-            position:'',
             infoContent: '',
             infoWindowPos: {
                 lat: 0,
@@ -62,16 +62,13 @@ export default {
                     width: 0,
                     height: -35
                 }
-            }
+            },
+            radius:20,
+            status:0,
           }
         },
 
         methods: {
-          initMap() {
-            this.center = {lat:14.680000,lng:121.040000};
-            this.zoom = 12;
-            this.position= this.center;
-          },
 
           toggleInfoWindow (marker, idx) {
 
@@ -94,9 +91,8 @@ export default {
           },
 
           fetchReports(){
-              axios.post('/api/recent-reports',{lat: this.center.lat, lng: this.center.lng}).then(response=> {
+              axios.post('/api/recent-reports',{place: this.center, radius:this.radius, status:this.status}).then(response=> {
                       let data = response.data;
-                      console.log(response);
                       this.markers = data.markers;
                       Bus.$emit('reports_fetched',data);
               });
@@ -115,7 +111,22 @@ export default {
         },
 
          created(){
-            this.fetchReports();
+            if(navigator.geolocation){
+              navigator.geolocation.getCurrentPosition((position)=> {
+                this.center = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+                };
+                this.zoom = 12;                
+
+              if(this.center) 
+                this.fetchReports({radius:this.radius, place:this.center});
+
+              });
+              //initMap();
+            } else {
+              alert("Browser not supported");
+            }
 
             Bus.$on('reports_fetched',data=>{
               this.markers=data.markers;
@@ -125,12 +136,36 @@ export default {
               console.log('event data',data);
             })
 
+            Bus.$on('place_filter',place=>{
+              this.center=place;
+              this.fetchReports();
+            })
+
             Bus.$on('marker_result_clicked', index=> {
               let targetMarker=this.markers[index];
               this.center=targetMarker.position;
               this.zoom=20;
               this.toggleInfoWindow(targetMarker,index)
             })
+
+            Bus.$on('changed_radius', data=> {
+              this.radius = data;
+              this.fetchReports();
+            })
+
+            Bus.$on('changed_status', data=> {
+              this.status = data;
+              this.fetchReports();
+            })
+
+            Bus.$on('respond_to_report', index=> {
+              //this.respondToReport(index);
+              Bus.$emit('selectReport', this.markers[index]);
+            })
+            // Bus.$on('respond_to_report', data=>{
+              
+            //   // this.fetchReports();
+            // })
          },
     };
 </script>

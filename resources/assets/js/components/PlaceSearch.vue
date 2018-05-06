@@ -9,23 +9,22 @@
   export default {
     data () {   
     	return{
-    		center:this.center,
+    		center:{},
     		zoom: 12,
             town: null
     	}
     },
 
-    // methods: {
-    // 	getPlace(place){
-    // 		let center = {
-    // 			lat: place.geometry.location.lat(),
-    // 			lng: place.geometry.location.lng()
-    // 		};
-    //         this.town = place.formatted_address;
-    // 		this.center = center; 
-    // 		Bus.$emit('marker_changed',center);
-    // 	},
+    methods: {
+    	getPlace(place){
+    		let center = {
+    			lat: place.geometry.location.lat(),
+    			lng: place.geometry.location.lng()
+    		};
+    		this.center = center; 
+    		Bus.$emit('place_filter_changed',center);
+    	},
 
-    // }
+    }
  }
 </script>

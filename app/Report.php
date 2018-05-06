@@ -14,4 +14,9 @@ class Report extends Model
 	* @var array
 	*/
 	protected $fillable = ['owner_id', 'incident_id', 'lat', 'lng','body','status','address','contact_number', 'is_validate', 'is_resolved'];
+
+	public function ticket()
+    {
+        return $this->hasOne('App\Ticket', 'report_id');
+    }
 }
