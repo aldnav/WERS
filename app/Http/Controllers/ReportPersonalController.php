@@ -87,4 +87,21 @@ class ReportPersonalController extends Controller
         //rejected:
         //ticket status = 0
         //report isrejected = true
+    
+        public function stats() {
+            // 1 fire
+            // 2 flood
+            // 3 road accidents
+            // 4 landslide
+            $count_fires = Report::where('incident_id', 1)->count();
+            $count_flood = Report::where('incident_id', 2)->count();
+            $count_road = Report::where('incident_id', 3)->count();
+            $count_landslide = Report::where('incident_id', 4)->count();
+            return response()->json(['result'=> [
+                ['icon' => 'fire', 'count' => $count_fires, 'text'=> 'Fire'],
+                ['icon' => 'flood', 'count' => $count_flood, 'text'=> 'Flood'],
+                ['icon' => 'road', 'count' => $count_road, 'text'=> 'Vehicular Accidents'],
+                ['icon' => 'landslide', 'count' => $count_landslide, 'text'=> 'Landslide'],
+            ]]);
+        }
 }
