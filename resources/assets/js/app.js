@@ -58,6 +58,7 @@ const app = new Vue({
     	mapLng:0,
         formatAddress:null,
         selectedReport: null,
+        unreadNotifCount: 0
     },
     created(){
       Bus.$on('marker_changed', place=>{
@@ -109,6 +110,9 @@ const app = new Vue({
               this.showReports = false;
           }
       });
+
+      this.getNotificationsCount();
+      
     },
 
     methods:{
@@ -118,6 +122,18 @@ const app = new Vue({
 
         selectReport: function(o) {
             console.log(o);
+        },
+
+        getNotificationsCount() {
+            axios.get('/notifications/unread/count')
+                .then(response => {
+                    this.unreadNotifCount = response.data.result;
+                    // if (this.unreadNotifCount > 0) {
+                    //     $('.js-notifications').addClass('unreads');
+                    // } else {
+                    //     $('.js-notifications').removeClass('unreads');
+                    // }
+                });
         }
     },
 
@@ -128,6 +144,14 @@ const app = new Vue({
 
         showModal: function(newVal, oldVal) {
             newVal && this.showReports ? this.showReports = false : null;
+        },
+
+        unreadNotifCount: function(newVal, oldVal) {
+            if (newVal > 0) {
+                $('.js-notifications').addClass('unreads');
+            } else {
+                $('.js-notifications').removeClass('unreads');
+            }
         }
     }
 });

@@ -28,6 +28,22 @@ nav {
         }
     }
 
+    .js-notifications.unreads {
+        color: $icons-hovered;
+
+        &::after {
+            content: '';
+            color: $icons-hovered;
+            font-size: 8px;
+            margin-right: 4px;
+            position: absolute;
+        }
+    }
+
+    .auth {
+        margin-left: 8px;
+    }
+
     .js-login {
         background-color: $icons-hovered;
         border-color: $icons-hovered;

@@ -32,7 +32,7 @@
       @if(!Auth::guest())
       <!-- <a href="#" v-on:click="showReports=true" class="navbar-actions"><i class="fas fa-flag"></i></a> -->
       <a href="#" v-on:click="showNotifications=true"><i class="fas fa-bell js-notifications"></i></a>
-      <a href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
+      <a href="{{ route('logout')}}" class="auth" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST"
               style="display: none;">
@@ -40,7 +40,7 @@
         </form>          
 
       @else
-      <a href="{{ route('login') }}" type="button" class="btn btn-primary btn-sm js-login"><i class="fas fa-sign-in-alt"></i> &nbsp;Log in</a>
+      <a href="{{ route('login') }}" type="button" class="btn btn-primary btn-sm js-login auth"><i class="fas fa-sign-in-alt"></i> &nbsp;Log in</a>
       @endif
     </nav>
     @yield('content')

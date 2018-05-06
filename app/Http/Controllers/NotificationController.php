@@ -18,4 +18,12 @@ class NotificationController extends Controller
             'result' => $unread
         ]);
     }
+
+    public function getUnreadCount(Authenticatable $user) {
+        $unreadCount = Notification::where('owner_id', $user->id)->count();
+        
+        return response()->json([
+            'result' => $unreadCount
+        ]);
+    }
 }
