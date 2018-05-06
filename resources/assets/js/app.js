@@ -112,6 +112,10 @@ const app = new Vue({
       });
 
       this.getNotificationsCount();
+
+      Bus.$on('notifRead', yeah=> {
+        this.unreadNotifCount--;
+      });
       
     },
 

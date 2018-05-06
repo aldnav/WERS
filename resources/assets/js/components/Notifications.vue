@@ -54,8 +54,8 @@
             readNotification(id) {
                 axios.post('/notifications/read/' + id)
                     .then(response => {
-                        this.unreadNotifications--;
                         this.fetchNotifications('unread');
+                        Bus.$emit('notifRead', 'yeah');
                     });
             },
 
