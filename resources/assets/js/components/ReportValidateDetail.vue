@@ -1,27 +1,28 @@
 <template>
 <div class="report">
     <div class="row report-body">
-        {{ report.body }}
+        {{ report.report }}
     </div>
     <hr>
     <div class="row">
         <div class="col-sm-6 left-col">
             <h6>Nature of Incident</h6>
-            <div class="cell-val text-center">{{ getIncidentType(report.incident_id) }}</div>
+            <div class="cell-val text-center">{{ report.incident}}</div>
         </div>
         <div class="col-sm-6 right-col">
             <h6>Location</h6>
-            <div class="cell-val text-center">{{ getLocation() }}</div>
+            <div class="cell-val text-center">{{ report.name }}</div>
         </div>
     </div>
     <hr>
     <div class="row">
         <div class="col text-center">
             <img src="/images/avatar.png" class="rounded-circle avatar">
-            <h6>{{ owner.name }}</h6>
+            <h6>{{ report.reporter }}</h6>
         </div>
         <div class="col text-center contact-div">
-            <button type="button" class="btn btn-success">Contact User</button>
+            Contact User: <br/>{{report.contact_number||"0948221324"}}
+            <!-- <button type="button" class="btn btn-success">Contact User: {{report.contact_number}}</button> -->
         </div>
     </div>
     <template v-if="resolution_show">
@@ -82,11 +83,11 @@ export default {
             return this.report.incident_id;
         },
 
-        getReporterInfo: function() {
-            axios.get('/user-reports/user-info/' + this.report.owner_id).then(response=>{
-                this.owner = response.data
-            })
-        },
+        // getReporterInfo: function() {
+        //     axios.get('/user-reports/user-info/' + this.report.owner_id).then(response=>{
+        //         this.owner = response.data
+        //     })
+        // },
 
         unsafePost(action) {
             this.resolution_show = true;
@@ -114,6 +115,7 @@ export default {
                 })
                 .then(response => {
                     this.$swal({text:"Report submitted!", icon:"success", timer:1000});
+                    console.log("Result ticket:",response.data.result);
                     Bus.$emit('dismiss');
                 })
                 .catch(response => { console.log(response) });
@@ -141,10 +143,6 @@ export default {
                 this.reject();
         }
 
-    },
-
-    mounted() {
-        this.getReporterInfo();
     }
 }
 </script>

@@ -96,11 +96,20 @@
             // if(this.markers.length>0){
             //     this.center=data.markers[0].position;
             // }
-            this.zoom=12;
+            this.zoom=18;
             this.center = place;
             this.markers = [];
             this.addMarker(place);    
           });
+
+          // Bus.$on('location_added', place=>{
+          //   //this.markers=place.markers;
+          //   // if(this.markers.length>0){
+          //   //     this.center=data.markers[0].position;
+          //   // }
+          //   this.zoom=;
+               
+          // });
         }
 
     };

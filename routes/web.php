@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('front');
 });
 
+Route::get('userContact', 'UserController@userContact');  
+
 // Route::get('/', function () {
 //     return view('responder');
 // });
@@ -26,6 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/signin',function(){
 	return view('auth/login');
 });
+
 
 Route::get('/user-reports', 'ReportPersonalController@userReports');
 Route::get('/user-reports/user-info/{id}', 'ReportPersonalController@getUserInfo');

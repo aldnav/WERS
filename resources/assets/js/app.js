@@ -18,7 +18,7 @@ window.Bus = new Vue;
 Vue.use(VueSweetalert2);
 Vue.use(VueGoogleMaps, {
     load: {
-        key: 'AIzaSyA7a-pVRxc_cx00QNTiPWQZW50qxiqZGO0',
+        key: 'AIzaSyC-mUjFEzHGa0MK-tOQwEwDq8_pwddb1WI',
         libraries: 'places', 
     }
 });
@@ -88,6 +88,7 @@ const app = new Vue({
       })
 
       Bus.$on('selectReport', o=> {
+          console.log("Report:",o);
           this.selectedReport = o;
           this.showReports = false;
           this.showSpecificReport = true;
