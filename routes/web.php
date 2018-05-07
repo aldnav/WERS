@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('front');
-});
+Route::get('/', 'HomeController@index')->middleware('auth');
 
 Route::get('userContact', 'UserController@userContact');  
 
