@@ -16,7 +16,13 @@ class Report extends Model
 	protected $fillable = ['owner_id', 'incident_id', 'lat', 'lng','body','status','address','contact_number', 'is_validate', 'is_resolved'];
 
 	public function ticket()
-    {
-        return $this->hasOne('App\Ticket', 'report_id');
-    }
+  {
+      return $this->hasOne('App\Ticket', 'report_id');
+  }
+
+	public function incident()
+	{
+			return $this.belongsTo('App\Incident', 'incident_id');
+	}
+
 }
