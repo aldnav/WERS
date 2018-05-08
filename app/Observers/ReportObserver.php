@@ -3,14 +3,18 @@
 namespace App\Observers;
 
 use App\Notifications\NewReport;
+use Illuminate\Support\Facades\Log;
 use App\Report;
+use App\User;
 
 class ReportObserver
 {
     public function created(Report $report)
     {
-        // foreach ($user->followers as $follower) {
-        //     $follower->notify(new NewPost($user, $post));
-        // }
+      $users = User::where('user_role', 1)
+              ->get();
+      foreach ($users as $user) {
+        $user->notify(new NewReport($report));
+      }
     }
 }

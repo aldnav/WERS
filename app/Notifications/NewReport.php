@@ -22,7 +22,7 @@ class NewReport extends Notification implements ShouldQueue
      */
     public function __construct(Report $report)
     {
-      $this->report = $report
+      $this->report = $report;
     }
 
     /**
@@ -58,7 +58,7 @@ class NewReport extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-          'id' => $this->id,
+          'id' => $this->report->id,
           'read_at' => null,
           'data' => [
               'report_id' => $this->report->id,

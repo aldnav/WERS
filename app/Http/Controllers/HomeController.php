@@ -22,12 +22,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-<<<<<<< HEAD
-    {
-=======
-    {       
->>>>>>> cae8fe2cca4fbded910b394704cb6bec8aa19402
+    public function index(){
         return view('front');
     }
 }

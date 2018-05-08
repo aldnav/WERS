@@ -12,6 +12,19 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script>
+        window.Laravel = <?php echo json_encode([
+            'csrfToken' => csrf_token(),
+        ]); ?>
+    </script>
+
+    <!-- This makes the current user's id available in javascript -->
+    @if(!auth()->guest())
+        <script>
+            window.Laravel.userId = <?php echo auth()->user()->id; ?>
+        </script>
+    @endif
 </head>
 <body>
   <div id="app">
@@ -37,7 +50,7 @@
         <form id="logout-form" action="{{ route('logout') }}" method="POST"
               style="display: none;">
             {{ csrf_field() }}
-        </form>          
+        </form>
 
       @else
       <a href="{{ route('login') }}" type="button" class="btn btn-primary btn-sm js-login"><i class="fas fa-sign-in-alt"></i> &nbsp;Log in</a>

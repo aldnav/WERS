@@ -9,17 +9,28 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 //window.geoLocationInit = Map.geoLocationInit;
- 
+
 import * as VueGoogleMaps from 'vue2-google-maps';
 import VueSweetalert2 from 'vue-sweetalert2';
+import Pusher from 'pusher-js'
+import Echo from 'laravel-echo'
 
+const PUSHER_KEY = 'cb986673cc17e049e6dc'
+window.Pusher = Pusher
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: PUSHER_KEY,
+    cluster: 'ap1',
+    encrypted: true
+});
 window.Bus = new Vue;
+
 
 Vue.use(VueSweetalert2);
 Vue.use(VueGoogleMaps, {
     load: {
         key: process.env.GMAPS || 'AIzaSyC-mUjFEzHGa0MK-tOQwEwDq8_pwddb1WI',
-        libraries: 'places', 
+        libraries: 'places',
     }
 });
 
@@ -69,12 +80,12 @@ const app = new Vue({
         this.mapLng = place.lng();
         this.mapLat = place.lat();
         var google_maps_geocoder = new google.maps.Geocoder();
-          
+
         google_maps_geocoder.geocode(
-              { 'latLng': center }, 
+              { 'latLng': center },
               function( results, status ) {
                   console.log("results");
-                  app.set_address(results[0].formatted_address);  
+                  app.set_address(results[0].formatted_address);
               }
           );
       });
@@ -104,6 +115,13 @@ const app = new Vue({
           }
       });
     },
+    mounted() {
+      console.log(`App.User.${Laravel.userId}`)
+      window.Echo.private(`App.User.${Laravel.userId}`)
+          .notification((notification) => {
+            console.log(notification)
+          });
+    },
 
     methods:{
         set_address: function(address){
@@ -126,6 +144,7 @@ const app = new Vue({
     }
 });
 
+Vue.component('app', app);
 
 // const app = new Vue({
 //     el: '#app'
