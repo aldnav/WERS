@@ -12,6 +12,7 @@ window.Vue = require('vue');
 
 import * as VueGoogleMaps from 'vue2-google-maps';
 import VueSweetalert2 from 'vue-sweetalert2';
+<<<<<<< HEAD
 import Pusher from 'pusher-js'
 import Echo from 'laravel-echo'
 
@@ -23,6 +24,12 @@ window.Echo = new Echo({
     cluster: 'ap1',
     encrypted: true
 });
+=======
+import sort from 'vuejs-sort';
+import lodash from 'lodash'
+
+
+>>>>>>> f6d4a866244e2415a7a54b299f17ea945faaa658
 window.Bus = new Vue;
 
 
@@ -33,6 +40,7 @@ Vue.use(VueGoogleMaps, {
         libraries: 'places',
     }
 });
+Vue.prototype._=lodash
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -59,8 +67,8 @@ const app = new Vue({
         showModal:false,
         showReports: false,
         showSpecificReport: false,
-    	mapLat:0,
-    	mapLng:0,
+      mapLat:0,
+      mapLng:0,
         formatAddress:null,
         selectedReport: null,
     },
@@ -69,7 +77,7 @@ const app = new Vue({
         this.mapLng = place.lng;
         this.mapLat = place.lat;
         // console.log(place);
-        // this.formatAddress=place.formatted_address;
+        this.formatAddress=place.formatted_address;
       });
 
       Bus.$on('marker_dragged', place=>{

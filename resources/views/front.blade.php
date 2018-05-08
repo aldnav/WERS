@@ -8,7 +8,7 @@
 	        	<div class="row flex-xl-nowrap">
 	            <sidebar :responder="true"></sidebar>
 	            <div class=" col-xs-12 col-sm-9">
-	                <responder-map> </responder-map>            
+	                <responder-map :user-id="{{Auth::id()}}"> </responder-map>            
 	        	</div>
 	    		</div>
     		</div>
@@ -113,7 +113,7 @@
             </div>
             @else
             <div class="panel-body">
-                <report-validate-detail :report="selectedReport"></report-validate-detail>
+                <report-validate-detail :user-id="{{Auth::id()}}" :report="selectedReport"></report-validate-detail>
             </ul>
             </div>
             @endif

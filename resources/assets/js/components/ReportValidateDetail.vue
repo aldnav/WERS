@@ -57,7 +57,8 @@
 <script>
 export default {
     props:  {
-        report: null
+        report: null,
+        userId:0
     },
 
     data() {
@@ -108,7 +109,7 @@ export default {
         },
 
         validate: function(resolve) {
-            axios.post('/user-reports/validate/' + this.report.id + '/' + this.report.owner_id + '/' + resolve,
+            axios.post('/user-reports/validate/' + this.report.id + '/' + this.userId + '/' + resolve,
                 {
                     resolution_note: this.resolution_note
                 })
@@ -127,7 +128,7 @@ export default {
         },
 
         reject() {
-            axios.post('/user-reports/reject/' + this.report.id + '/' + this.report.owner_id,
+            axios.post('/user-reports/reject/' + this.report.id + '/' + this.userId,
                 {
                     resolution_note: this.resolution_note
                 })

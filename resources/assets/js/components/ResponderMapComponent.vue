@@ -32,18 +32,20 @@ export default {
       components:{
           'info-content':InfoContent
       },
-        // mounted() {
-        //     this.initMap();
 
+      props:['userId'],
+
+        // mounted() {
+        //      this.geoLocationInit();
         // },
 
         data(){
           return {
             center: {
-              lat:'',
-              lng:''
+              lat:0,
+              lng:0
             },
-            zoom:12,
+            zoom:18,
             markers:[],
             infoContent: '',
             infoWindowPos: {
@@ -89,9 +91,8 @@ export default {
                 this.currentMidx = idx;
             }
           },
-
           fetchReports(){
-              axios.post('/api/recent-reports',{place: this.center, radius:this.radius, status:this.status}).then(response=> {
+              axios.post('/api/recent-reports',{place: this.center, radius:this.radius, status:this.status, id:this.userId}).then(response=> {
                       let data = response.data;
                       this.markers = data.markers;
                       Bus.$emit('reports_fetched',data);
@@ -106,8 +107,7 @@ export default {
               else
                 item.icon = "/icons/road accident.png";
             }
-          }
-
+          },
         },
 
          created(){
@@ -117,17 +117,17 @@ export default {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
                 };
-                this.zoom = 12;                
-
-              if(this.center) 
-                this.fetchReports({radius:this.radius, place:this.center});
-
+                this.zoom = 12;
+                Bus.$emit('marker_changed',this.center);
+                this.fetchReports();
               });
+              console.log("successful geolocation.");
               //initMap();
             } else {
+              this.fetchReports();
               alert("Browser not supported");
             }
-
+            
             Bus.$on('reports_fetched',data=>{
               this.markers=data.markers;
               if(this.markers.length>0){
@@ -162,10 +162,14 @@ export default {
               //this.respondToReport(index);
               Bus.$emit('selectReport', this.markers[index]);
             })
-            // Bus.$on('respond_to_report', data=>{
-              
-            //   // this.fetchReports();
-            // })
+            
+             Bus.$on('reports_changed', data=>{
+              this.fetchReports();
+            })
+
+             this.$on('bounds_changed', data=>{
+              this.fetchReports();
+             })
          },
     };
 </script>
