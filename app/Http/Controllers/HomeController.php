@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -22,7 +23,11 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+<<<<<<< HEAD
     {
+=======
+    {       
+>>>>>>> cae8fe2cca4fbded910b394704cb6bec8aa19402
         return view('front');
     }
 }

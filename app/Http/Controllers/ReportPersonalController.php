@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Report;
+use App\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -34,7 +35,12 @@ class ReportPersonalController extends Controller
 
         $report = Report::find($id);
 
-        $ticket = Report::find($id)->ticket;
+        $ticket = $report->ticket;
+        $responder = Ticket::find($ticket->id)->responder;
+
+        if(!$responder)
+            $ticket->responder_id = $userid;
+
         $report->is_validated = true;
         
         if ($resolve == 1) {
@@ -55,8 +61,9 @@ class ReportPersonalController extends Controller
 
     public function reject(Request $request, $id, $userid) {
         $report = Report::find($id);
-        $ticket = Report::find($id)->ticket;
+        $ticket = $report->ticket;
         $report->is_rejected = true;
+        $tiket->responder_id=$userid;
         $ticket->status=2;
         if ($request->resolution_note) {
             $report->resolution_note = 'Rejected.' . $request->resolution_note;

@@ -54,7 +54,12 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+<<<<<<< HEAD
             'contact_number'=>'required|min:11'
+=======
+            'contact_number'=>'required|min:11',
+            'user_role'=>'required' 
+>>>>>>> cae8fe2cca4fbded910b394704cb6bec8aa19402
         ]);
     }
 
@@ -71,8 +76,12 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'contact_number' => $data['contact_number'],
+<<<<<<< HEAD
             'user_role' => $data['user_role'],
 
+=======
+            'user_role'=>$data['user_role']
+>>>>>>> cae8fe2cca4fbded910b394704cb6bec8aa19402
         ]);
 
         // DB::beginTransaction();

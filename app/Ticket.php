@@ -16,5 +16,8 @@ class Ticket extends Model
 	*/
 	protected $fillable = ['report_id','responder_id','status'];
 
-
+	public function responder()
+    {
+        return $this->belongsTo('App\User', 'responder_id');
+    }
 }
