@@ -30,9 +30,13 @@
             $lat = $center['lat'];
             $lng = $center['lng'];
             $status = request('status');
-          
+            $userId = request('id');
+            $userIdQuery='';
+            if($status==1){
+                $userIdQuery = 'AND tickets.responder_id ='.$userId;
+            }
             $distance = request('radius');
-            $results = DB::select(DB::raw('SELECT reports.id AS report_id, reports.lat AS latitude, reports.lng AS longitude, address, incidents.name AS incident_name, body, users.name AS username,  DATE_FORMAT(reports.created_at, "%M %d, %Y %I:%i %p") AS report_date, users.contact_number AS contact_number, users.id AS user_id, (3959 * acos(cos(radians(' . $lat . ')) * cos(radians(reports.lat)) * cos(radians(reports.lng) - radians(' . $lng . ')) + sin (radians(' . $lat . ')) * sin (radians(reports.lat)))) AS distance FROM reports LEFT JOIN users ON reports.owner_id=users.id LEFT JOIN incidents ON reports.incident_id = incidents.id WHERE reports.is_validated='.$status.' AND reports.is_resolved=0 AND reports.is_rejected=0 HAVING distance <
+            $results = DB::select(DB::raw('SELECT reports.id AS report_id, reports.lat AS latitude, reports.lng AS longitude, address, incidents.name AS incident_name, body, users.name AS username,  DATE_FORMAT(reports.created_at, "%M %d, %Y %I:%i %p") AS report_date, users.contact_number AS contact_number, users.id AS user_id, (3959 * acos(cos(radians(' . $lat . ')) * cos(radians(reports.lat)) * cos(radians(reports.lng) - radians(' . $lng . ')) + sin (radians(' . $lat . ')) * sin (radians(reports.lat)))) AS distance FROM reports INNER JOIN users ON reports.owner_id=users.id INNER JOIN incidents ON reports.incident_id = incidents.id INNER JOIN tickets ON tickets.report_id = reports.id WHERE reports.is_validated='.$status.' AND reports.is_resolved=0 AND reports.is_rejected=0 '.$userIdQuery.' HAVING distance <
                  '.$distance.' ORDER BY report_date desc') );
 
             $markers = collect($results)->map(function ($item, $key) {

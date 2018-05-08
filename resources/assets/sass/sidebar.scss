@@ -1,0 +1,27 @@
+$icons-light-blue: #6AC4F7;
+$icons-hl-text: #fdfdfd;
+$icons-dark-blue: #5cb5e6;
+$back-light: #FFFFFF;
+
+
+.filters{
+  background-color:$icons-light-blue;
+  font-family:Roboto;
+  font-style:small;
+  padding:0.5px;
+
+}
+
+.filters select{
+  background-color:$back-light;
+  font-family:Roboto;
+  font-style:small;
+  font-size:15px;
+}
+
+.filters button{
+  background-color:$back-light;
+  font-family:Roboto;
+  font-style:small;
+  font-size:15px;
+}
