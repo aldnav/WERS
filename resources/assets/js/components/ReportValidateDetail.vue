@@ -22,7 +22,6 @@
         </div>
         <div class="col text-center contact-div">
             Contact User: <br/>{{report.contact_number||"0948221324"}}
-            <!-- <button type="button" class="btn btn-success">Contact User: {{report.contact_number}}</button> -->
         </div>
     </div>
     <template v-if="resolution_show">
@@ -116,6 +115,7 @@ export default {
                 .then(response => {
                     this.$swal({text:"Report submitted!", icon:"success", timer:1000});
                     console.log("Result ticket:",response.data.result);
+                    Bus.$emit('reports_changed');
                     Bus.$emit('dismiss');
                 })
                 .catch(response => { console.log(response) });
