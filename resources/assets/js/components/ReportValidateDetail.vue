@@ -22,7 +22,6 @@
         </div>
         <div class="col text-center contact-div">
             Contact User: <br/>{{report.contact_number||"0948221324"}}
-            <!-- <button type="button" class="btn btn-success">Contact User: {{report.contact_number}}</button> -->
         </div>
     </div>
     <template v-if="resolution_show">
@@ -58,7 +57,8 @@
 <script>
 export default {
     props:  {
-        report: null
+        report: null,
+        userId:0
     },
 
     data() {
@@ -109,13 +109,14 @@ export default {
         },
 
         validate: function(resolve) {
-            axios.post('/user-reports/validate/' + this.report.id + '/' + this.report.owner_id + '/' + resolve,
+            axios.post('/user-reports/validate/' + this.report.id + '/' + this.userId + '/' + resolve,
                 {
                     resolution_note: this.resolution_note
                 })
                 .then(response => {
                     this.$swal({text:"Report submitted!", icon:"success", timer:1000});
                     console.log("Result ticket:",response.data.result);
+                    Bus.$emit('reports_changed');
                     Bus.$emit('dismiss');
                 })
                 .catch(response => { console.log(response) });
@@ -127,7 +128,7 @@ export default {
         },
 
         reject() {
-            axios.post('/user-reports/reject/' + this.report.id + '/' + this.report.owner_id,
+            axios.post('/user-reports/reject/' + this.report.id + '/' + this.userId,
                 {
                     resolution_note: this.resolution_note
                 })

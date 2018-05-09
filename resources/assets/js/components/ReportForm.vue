@@ -34,7 +34,7 @@
               <input ref="autocomplete" 
               placeholder="Search" 
               class="search-location form-control"
-              onfocus="value = ''" 
+               v-model="report.address"
               type="text" />
             </div>
           </div>
@@ -91,6 +91,9 @@
             {types: ['geocode']}
           );
 
+          this.autocomplete.setComponentRestrictions(
+            {'country': 'ph'});
+
           this.autocomplete.addListener('place_changed', () => {
             let place = this.autocomplete.getPlace();
             let ac = place.address_components;
@@ -100,6 +103,7 @@
               lng: place.geometry.location.lng()
             };
             this.center = center; 
+            this.report.address=place.formatted_address;
             Bus.$emit('marker_changed',center);
             Bus.$emit('location_changed',place);
             Bus.$emit('location_added',center);

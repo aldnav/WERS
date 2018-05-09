@@ -79,7 +79,7 @@
                         </div>
 
                          <div class="form-group{{ $errors->has('user_role') ? ' has-error' : '' }}">
-                            <label for="user_role" class="col-md-4 control-label">User Role</label>
+                            <label for="user_role" class="col-md-4 control-label">Register as</label>
 
                             <div class="col-md-6">
                                 <select id="user_role" type="user_role" name="user_role" value="{{ old('user_role') }}" required class="form-control">
@@ -94,6 +94,21 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Register
+                                </button>
+                                <a class="btn btn-link" href="{{ route('login') }}">
+                                    Already have an account
+                                </a>
+                            </div>
+                        </div>
+                        <div id="reg_map">
+                            <incident-map></incident-map>
+                            Map
+                        </div>
+
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
