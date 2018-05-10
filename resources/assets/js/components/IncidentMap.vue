@@ -64,7 +64,7 @@
         methods: {
           initMap() {
 
-            if((this.userLat==0|| this.userLat==null) && (!geolocated)) {
+            if((this.userLat==null || this.userLat==0 ) && (!this.geolocated)) {
               this.center = {lat:11.92,lng:122.63};
               this.zoom = 5.5;
             }
@@ -106,7 +106,7 @@
             console.log("center",position);
             this.addMarker(this.center);
             Bus.$emit('location_init',position);
-            geolocated=true;
+            this.geolocated=true;
           },
 
           fail: function(error){

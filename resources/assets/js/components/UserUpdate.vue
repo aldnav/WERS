@@ -64,8 +64,8 @@
                 errors:[],
                 markers:[],
                 user:{
-                  lat:this.lat,
-                  lng:this.lng,
+                  lat:parseFloat(this.lat),
+                  lng:parseFloat(this.lng),
                   contact_number:this.contactNumber,
                   email:this.email,
                   name:this.name,
@@ -73,8 +73,8 @@
                 },
                 zoom:18,
                 center: {
-                  lat:this.lat,
-                  lng:this.lng
+                  lat:parseFloat(this.lat),
+                  lng:parseFloat(this.lng),
                 },
                 submitted:false
 
