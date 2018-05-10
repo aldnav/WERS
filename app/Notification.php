@@ -25,7 +25,7 @@ class Notification extends Model
         $notif->action = $action;
         $notif->object_id = $object_id;
         $notif->object_type = $object_type;
-        $notif->verbose_string = '<User:'.$user->id.'> '.$action.' <'.$object_type.':'.$object_id.'>';
+        $notif->verbose_string = '<User:'.$userId.'> '.$action.' <'.$object_type.':'.$object_id.'>';
         $notif->save();
     }
 }

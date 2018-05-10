@@ -2,6 +2,7 @@
 
     namespace App\Http\Controllers\Api;
 
+    use Redis;
     use App\Report;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
@@ -17,7 +18,13 @@
         public function saveOrUpdate(Request $request)
         {
             $report = Report::create($request->all());
-            Ticket::create(['report_id' => $report->id, 'status'=>1]);           
+            $ticket = Ticket::create(['report_id' => $report->id, 'status'=>1]);
+            \App\Notification::notify(
+                $report->owner_id,
+                'created',
+                $report->id,
+                'report');
+            return response()->json(['ticket_id'=>$ticket->id]);
         }
 
 

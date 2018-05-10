@@ -12,7 +12,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 class NotificationController extends Controller
 {
     public function getUnread(Authenticatable $user) {
-        $unread = Notification::where('owner_id', $user->id)->get();
+        $unread = Notification::where('owner_id', $user->id)
+                              ->where('is_read', 0)->get();
         
         return response()->json([
             'result' => $unread

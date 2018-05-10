@@ -13,7 +13,8 @@ window.Vue = require('vue');
 import * as VueGoogleMaps from 'vue2-google-maps';
 import VueSweetalert2 from 'vue-sweetalert2';
 import sort from 'vuejs-sort';
-import lodash from 'lodash'
+import lodash from 'lodash';
+import VueSocketio from 'vue-socket.io';
 
 
 window.Bus = new Vue;
@@ -25,7 +26,8 @@ Vue.use(VueGoogleMaps, {
         libraries: 'places', 
     }
 });
-Vue.prototype._=lodash
+Vue.prototype._=lodash;
+Vue.use(VueSocketio, 'http://localhost:8890');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -42,10 +44,18 @@ Vue.component('responder-map', require('./components/ResponderMapComponent.vue')
 Vue.component('stat', require('./components/Quickstats.vue'));
 Vue.component('report-list', require('./components/ReportList.vue'));
 Vue.component('report-validate-detail', require('./components/ReportValidateDetail.vue'));
-Vue.component('notifications', require('./components/Notifications.vue'));
+let notifComponent = Vue.component('notifications', require('./components/Notifications.vue'));
 
 
 window.INCIDENTS = ['FIRE', 'FLOOD', 'ROAD ACCIDENT', 'LANDSLIDE'];
+
+var uid;
+try {
+    uid = document.querySelector('meta[name="wers-id"]').getAttribute('content');
+    document.querySelector('meta[name="wers-id"]').remove();
+} catch (error) {
+    uid = null;
+}
 
 const app = new Vue({
     el: '#app',
@@ -60,6 +70,23 @@ const app = new Vue({
         selectedReport: null,
         unreadNotifCount: 0
     },
+
+    sockets:{
+        connect: function(){
+            console.log('socket connected')
+        },
+        'notification': function(data){
+            console.log('notification:',  data);
+            if (data.obj.owner_id != uid)
+                return;
+            // every notif has an 'event' from Laravel's app service provider
+            if (data.event == 'created') {
+                this.unreadNotifCount += 1;
+            }
+            Bus.$emit('notifications:' + data.event, data.obj);
+        }
+    },
+
     created(){
       Bus.$on('marker_changed', place=>{
         this.mapLng = place.lng;

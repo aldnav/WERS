@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Redis;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,12 +14,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \App\Ticket::created(function($ticket) {
-            \App\Notification::notify(
-                $ticket->responder_id,
-                'assigned',
-                $ticket->id,
-                'ticket');
+        \App\Ticket::updated(function($ticket) {
+            // sample service
+        });
+
+        \App\Notification::created(function($notification) {
+            Redis::publish('message', json_encode([
+                'pchannel'=>'notification',
+                'event'=>'created',
+                'obj'=>$notification
+            ]));
         });
     }
 

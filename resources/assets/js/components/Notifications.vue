@@ -27,10 +27,17 @@
             }
         },
 
-        mounted() {
+        created() {
             $('.modal-mask .panel-body').addClass('p-0');
 
             this.fetchNotifications('unread');
+
+            // Bus.$on('notifications:created', notif => {
+            //     console.log(notif);
+            //     notif.icon = this.getIcon(notif);
+            //     this.setTemplateMessage(notif);
+            //     this.unreadNotifications.unshift(notif);
+            // });
         },
 
         beforeDestroy() {
@@ -68,6 +75,8 @@
                     notification.template = `You were assigned a ticket #${notification.object_id}`; 
                 } else if (notification.action == 'resolved') {
                     notification.template = `Your report #${notification.object_id} has been resolved.`;
+                } else if (notification.action == 'created') {
+                    notification.template = `You submitted report #${notification.id}`;
                 }
             }
 
