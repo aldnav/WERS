@@ -26,6 +26,12 @@ npm run dev    # build one time
 npm run watch  # build when there is a change
 ```
 
+Setup notifications:
+Pubsub  is handled by redis. Follow installation instructions here https://redis.io/download#installation
+Communications are handled via websockets.
+After that, cd into `node_server` and run `node server.js`
+
+
 Documentations:
 
 * [Laravel mix (github)](https://github.com/JeffreyWay/laravel-mix/blob/master/docs/mixjs.md)
