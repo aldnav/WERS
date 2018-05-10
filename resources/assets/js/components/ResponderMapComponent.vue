@@ -17,7 +17,7 @@
     </gmap-cluster>
 
     <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
-      <info-content :address='address' :content="infoContent" :reporter="reporter" :contact-number="contactNumber" :report-date="report_date"></info-content>
+      <info-content :address='address' :is-responder="true" :content="infoContent" :reporter="reporter" :contact-number="contactNumber" :report-date="report_date"></info-content>
     </gmap-info-window>  
   </GmapMap>
 </template>
@@ -98,16 +98,6 @@ export default {
                       Bus.$emit('reports_fetched',data);
               });
           },
-
-          addIcon(){
-            for(item in this.markers)
-            {
-              if(item.incident == 1)
-                item.icon = "/icons/fire.png";
-              else
-                item.icon = "/icons/road accident.png";
-            }
-          },
         },
 
          created(){
@@ -141,11 +131,11 @@ export default {
               this.fetchReports();
             })
 
-            Bus.$on('marker_result_clicked', index=> {
-              let targetMarker=this.markers[index];
+            Bus.$on('marker_result_clicked', item=> {
+              let targetMarker= _.find(this.markers, (o) => o.id === item.report_id);
               this.center=targetMarker.position;
               this.zoom=20;
-              this.toggleInfoWindow(targetMarker,index)
+              this.toggleInfoWindow(targetMarker,targetMarker.id);
             })
 
             Bus.$on('changed_radius', data=> {

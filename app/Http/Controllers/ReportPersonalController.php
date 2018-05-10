@@ -62,8 +62,8 @@ class ReportPersonalController extends Controller
     public function reject(Request $request, $id, $userid) {
         $report = Report::find($id);
         $ticket = $report->ticket;
-        $report->is_rejected = true;
-        $tiket->responder_id=$userid;
+        $report->is_rejected = 1;
+        $ticket->responder_id=$userid;
         $ticket->status=2;
         if ($request->resolution_note) {
             $report->resolution_note = 'Rejected.' . $request->resolution_note;

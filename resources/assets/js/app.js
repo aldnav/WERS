@@ -15,7 +15,6 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import sort from 'vuejs-sort';
 import lodash from 'lodash'
 
-
 window.Bus = new Vue;
 
 Vue.use(VueSweetalert2);
@@ -42,6 +41,7 @@ Vue.component('responder-map', require('./components/ResponderMapComponent.vue')
 Vue.component('stat', require('./components/Quickstats.vue'));
 Vue.component('report-list', require('./components/ReportList.vue'));
 Vue.component('report-validate-detail', require('./components/ReportValidateDetail.vue'));
+Vue.component('reporter-sidebar', require('./components/ReporterSidebar.vue'));
 
 
 window.INCIDENTS = ['FIRE', 'FLOOD', 'ROAD ACCIDENT', 'LANDSLIDE'];
@@ -61,8 +61,9 @@ const app = new Vue({
       Bus.$on('marker_changed', place=>{
         this.mapLng = place.lng;
         this.mapLat = place.lat;
-        // console.log(place);
+        console.log('to format place',place.formatted_address);
         this.formatAddress=place.formatted_address;
+
       });
 
       Bus.$on('marker_dragged', place=>{
@@ -80,16 +81,37 @@ const app = new Vue({
                   console.log("results");
                   app.set_address(results[0].formatted_address);  
               }
-          );
+          )
       });
 
-      Bus.$on('location_init', results=>{
-        this.formatAddress=results[0].formatted_address;
+      Bus.$on('location_init', place=>{
+        let center = {
+          lat: place.coords.latitude,
+          lng: place.coords.longitude
+        };
+
+        this.mapLat=center.lat;
+        this.mapLng=center.lng;
+        var google_maps_geocoder = new google.maps.Geocoder();
+          
+        google_maps_geocoder.geocode(
+          { 'latLng': center }, 
+          function( results, status ) {
+              console.log("results");
+              app.set_address(results[0].formatted_address);  
+          }
+        )
+
       });
 
       Bus.$on('location_changed', place=>{
         this.formatAddress=place.formatted_address;
       })
+
+      Bus.$on('location_added', place=>{
+        this.formatAddress=place;
+      })
+
 
       Bus.$on('selectReport', o=> {
           console.log("Report:",o);

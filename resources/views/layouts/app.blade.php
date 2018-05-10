@@ -28,9 +28,10 @@
       <div class="quick-stats mr-auto">
         <stat></stat>
       </div>
-      <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align" v-on:click="showModal=true"><i class="fas fa-plus-circle" id="show-modal"></i></button>
+
       @if(!Auth::guest())
-      <!-- <a href="#" v-on:click="showReports=true" class="navbar-actions"><i class="fas fa-flag"></i></a> -->
+      
+      @yield('add_button')
       <a href="#"><i class="fas fa-bell js-notifications"></i></a>
       <a href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
 
