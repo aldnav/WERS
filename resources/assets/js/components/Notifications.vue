@@ -71,12 +71,16 @@
             },
 
             setTemplateMessage(notification) {
-                if (notification.action == 'assigned') {
-                    notification.template = `You were assigned a ticket #${notification.object_id}`; 
-                } else if (notification.action == 'resolved') {
-                    notification.template = `Your report #${notification.object_id} has been resolved.`;
+                if (notification.action == 'responder:assigned') {
+                    notification.template = `You were assigned for report #${notification.object_id}`; 
                 } else if (notification.action == 'created') {
-                    notification.template = `You submitted report #${notification.id}`;
+                    notification.template = `You submitted report #${notification.object_id}`;
+                } else if (notification.action == 'reporter:assigned') {
+                    notification.template = `Your report #${notification.object_id} has been validated.`;
+                } else if (notification.action == 'reporter:resolved') {
+                    notification.template = `Your report #${notification.object_id} has been resolved.`;
+                } else if (notification.action == 'reporter:rejected') {
+                    notification.template = `Your report #${notification.object_id} has been rejected.`;
                 }
             }
 
