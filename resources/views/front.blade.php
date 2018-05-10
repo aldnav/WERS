@@ -137,7 +137,7 @@
         No notifications here.
         </div>
         @else
-        <div class="panel-body">
+        <div class="panel-body notifications-panel-body">
             <notifications></notifications>
         </ul>
         </div>
