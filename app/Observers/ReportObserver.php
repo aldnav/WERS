@@ -11,9 +11,9 @@ class ReportObserver
 {
     public function created(Report $report)
     {
-      $users = User::where('user_role', 1)
-              ->get();
+      $users = User::all();
       foreach ($users as $user) {
+        Log::debug('An informational message.');
         $user->notify(new NewReport($report));
       }
     }

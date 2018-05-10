@@ -12,24 +12,11 @@ window.Vue = require('vue');
 
 import * as VueGoogleMaps from 'vue2-google-maps';
 import VueSweetalert2 from 'vue-sweetalert2';
-<<<<<<< HEAD
-import Pusher from 'pusher-js'
-import Echo from 'laravel-echo'
 
-const PUSHER_KEY = 'cb986673cc17e049e6dc'
-window.Pusher = Pusher
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: PUSHER_KEY,
-    cluster: 'ap1',
-    encrypted: true
-});
-=======
 import sort from 'vuejs-sort';
 import lodash from 'lodash'
 
 
->>>>>>> f6d4a866244e2415a7a54b299f17ea945faaa658
 window.Bus = new Vue;
 
 
@@ -123,12 +110,13 @@ const app = new Vue({
           }
       });
     },
+
     mounted() {
       console.log(`App.User.${Laravel.userId}`)
       window.Echo.private(`App.User.${Laravel.userId}`)
-          .notification((notification) => {
-            console.log(notification)
-          });
+            .notification((notification) => {
+              alert('test')
+            });
     },
 
     methods:{
