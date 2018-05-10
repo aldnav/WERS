@@ -20,11 +20,32 @@
     "vue": "^2.5.16"
   },
   "dependencies": {
+    "express": "^4.16.3",
     "font-awesome": "^4.7.0",
     "popper.js": "^1.14.3",
+    "redis": "^2.8.0",
+    "socket.io": "^2.1.0",
     "vue-lodash": "^2.0.0",
+    "vue-socket.io": "^2.1.1-b",
     "vue-sweetalert2": "^1.2.4",
     "vue2-google-maps": "^0.9.6",
     "vuejs-sort": "^1.0.6"
-  }
+  },
+  "name": "wers",
+  "description": "### Contributing Guide",
+  "version": "1.0.0",
+  "main": "webpack.mix.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almamae/WERS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/almamae/WERS/issues"
+  },
+  "homepage": "https://github.com/almamae/WERS#readme"
 }
