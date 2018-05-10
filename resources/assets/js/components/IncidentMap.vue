@@ -19,10 +19,11 @@
 <script>
     import InfoContent from './InfoContent.vue'
     export default {
-      
+        props:['userId', 'userLat', 'userLng'],
+
         mounted() {
-            this.initMap();
             this.geoLocationInit();
+            this.initMap();
         },
 
         components:{
@@ -32,8 +33,8 @@
         data(){
           return {
             center: {
-              lat:10.30,
-              lng:123.90
+              lat:0,
+              lng:0
             },
             zoom:10,
             markers:[],
@@ -54,15 +55,24 @@
             report_date:'',
             address:'',
             responder:'',
-            contactNumber:''
+            contactNumber:'',
+            geolocated:false
 
           }
         },
 
         methods: {
           initMap() {
-            this.center = {lat:11.92,lng:122.63};
-            this.zoom = 5.5;
+
+            if((this.userLat==0|| this.userLat==null) && (!geolocated)) {
+              this.center = {lat:11.92,lng:122.63};
+              this.zoom = 5.5;
+            }
+            else {
+              this.center.lat=parseFloat(this.userLat);
+              this.center.lng=parseFloat(this.userLng);
+              this.zoom=18;
+            }
           },
 
           geoLocationInit (){
@@ -96,9 +106,11 @@
             console.log("center",position);
             this.addMarker(this.center);
             Bus.$emit('location_init',position);
+            geolocated=true;
           },
 
           fail: function(error){
+            this.geolocated=false;
             console.log("error:", error);
           },
 
@@ -113,8 +125,6 @@
 
             this.markers.push({
               position:markerLatLng,
-
-              //icon:"/star-red.png"
             });
           },
 
@@ -142,6 +152,10 @@
             this.addMarker(place);    
           });
 
+          Bus.$on('currentloc_changed', data=> {
+              this.center=data;
+          })
+          
           Bus.$on('marker_result_clicked', place=>{
             this.toggleInfoWindow(place);
             this.zoom=18;

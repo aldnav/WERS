@@ -42,6 +42,7 @@ Vue.component('stat', require('./components/Quickstats.vue'));
 Vue.component('report-list', require('./components/ReportList.vue'));
 Vue.component('report-validate-detail', require('./components/ReportValidateDetail.vue'));
 Vue.component('reporter-sidebar', require('./components/ReporterSidebar.vue'));
+Vue.component('user-update', require('./components/UserUpdate.vue'));
 
 
 window.INCIDENTS = ['FIRE', 'FLOOD', 'ROAD ACCIDENT', 'LANDSLIDE'];

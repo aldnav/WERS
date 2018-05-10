@@ -32,11 +32,13 @@
             $status = request('status');
             $userId = request('id');
             $userIdQuery='';
+            $distance = request('radius');
+
             if($status==1){
                 $userIdQuery = 'AND tickets.responder_id ='.$userId;
             }
-            $distance = request('radius');
-            $results = DB::select(DB::raw('SELECT reports.id AS report_id, round(reports.lat,3) AS latitude, round(reports.lng,3) AS longitude, address, incidents.name AS incident_name, body, users.name AS username,  DATE_FORMAT(reports.created_at, "%M %d, %Y %I:%i %p") AS report_date, reports.contact_number AS contact_number, users.id AS user_id, (3959 * acos(cos(radians(' . $lat . ')) * cos(radians(reports.lat)) * cos(radians(reports.lng) - radians(' . $lng . ')) + sin (radians(' . $lat . ')) * sin (radians(reports.lat)))) AS distance FROM reports INNER JOIN users ON reports.owner_id=users.id INNER JOIN incidents ON reports.incident_id = incidents.id INNER JOIN tickets ON tickets.report_id = reports.id WHERE reports.is_validated='.$status.' AND reports.is_resolved=0 AND reports.is_rejected=0 '.$userIdQuery.' HAVING distance <
+            
+            $results = DB::select(DB::raw('SELECT reports.id AS report_id, round(reports.lat,3) AS latitude, round(reports.lng,3) AS longitude, address, incidents.name AS incident_name, body, users.name AS username,  DATE_FORMAT(reports.created_at, "%M %d, %Y %I:%i %p") AS report_date, reports.created_at AS unform_date, reports.contact_number AS contact_number, users.id AS user_id, (3959 * acos(cos(radians(' . $lat . ')) * cos(radians(reports.lat)) * cos(radians(reports.lng) - radians(' . $lng . ')) + sin (radians(' . $lat . ')) * sin (radians(reports.lat)))) AS distance FROM reports INNER JOIN users ON reports.owner_id=users.id INNER JOIN incidents ON reports.incident_id = incidents.id INNER JOIN tickets ON tickets.report_id = reports.id WHERE reports.is_validated='.$status.' AND reports.is_resolved=0 AND reports.is_rejected=0 '.$userIdQuery.' HAVING distance <
                  '.$distance.' ORDER BY report_date desc') );
 
             $markers = collect($results)->map(function ($item, $key) {
@@ -61,6 +63,7 @@
                     'incident'=>$item->incident_name,
                     'report_date'=>$item->report_date, 
                     'distance'=> $item->distance,
+                    'unform_date'=> $item->unform_date,
                 ];
             });
 
@@ -95,7 +98,7 @@
                 $is_rejected=0;
             }
             
-            $results = DB::select(DB::raw('SELECT reports.id AS report_id, round(reports.lat,3) AS latitude, round(reports.lng,3) AS longitude, address, incidents.name AS incident_name, body, users.name AS responder,  DATE_FORMAT(reports.created_at, "%M %d, %Y %I:%i %p") AS report_date, users.contact_number AS contact_number FROM reports 
+            $results = DB::select(DB::raw('SELECT reports.id AS report_id, round(reports.lat,3) AS latitude, round(reports.lng,3) AS longitude, address, incidents.name AS incident_name, body, users.name AS responder,  DATE_FORMAT(reports.created_at, "%M %d, %Y %I:%i %p") AS report_date, reports.created_at AS unform_date, users.contact_number AS contact_number FROM reports 
                 INNER JOIN incidents ON reports.incident_id = incidents.id 
                 LEFT JOIN tickets ON tickets.report_id = reports.id 
                 LEFT JOIN users ON tickets.responder_id=users.id 
@@ -108,6 +111,7 @@
                     'incident'=>$item->incident_name,
                     'report'=>$item->body,
                     'report_date'=>$item->report_date,
+                    'unform_date'=>$item->unform_date,
                     'contact_number'=>$item->contact_number,
                     'id' => $item->report_id,
                     'responder'=>$item->responder

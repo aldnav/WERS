@@ -18,7 +18,7 @@
             <label for="sortby" class="col-xs-4 control-label">Sort by</label>
             <select id= "sortby" class="custom-select custom-select-sm" v-model="sortby" @change="changeSort">
               <option value="name">Address</option>
-              <option value="report_date">Report Date</option>
+              <option value="unform_date">Report Date</option>
             </select>
             <button type="button" class="btn btn-sm js-add-btn" v-if="sortOrder==='desc'" @click="sortOrder='asc'">
                <i class="fas fa-sort-amount-up"></i>
@@ -47,7 +47,7 @@
                 results:[],
                 currentPlace:{},
                 status:0,
-                sortby:'report_date',
+                sortby:'unform_date',
                 sortOrder:'desc',
                 address:''
             }

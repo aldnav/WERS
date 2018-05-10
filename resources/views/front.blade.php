@@ -9,9 +9,9 @@
     @endsection
     		<div class="container-fluid">
 	        	<div class="row flex-xl-nowrap">
-	            <sidebar></sidebar>
+	            <sidebar :user-lat="{{Auth::user()->lat}}" :user-lng="{{Auth::user()->lng}}"></sidebar>
 	            <div class=" col-xs-12 col-sm-9">
-	                <responder-map :user-id="{{Auth::id()}}"> </responder-map>            
+	                <responder-map user-lat="{{Auth::user()->lat}}" user-lng="{{Auth::user()->lng}}" :user-id="{{Auth::id()}}"> </responder-map>            
 	        	</div>
 	    		</div>
     		</div>
@@ -47,7 +47,7 @@
 
             @endif
             <div class="col-12 col-md-9 col-xl-10 m-0 p-0">
-                <incident-map> </incident-map>
+                <incident-map user-lat="{{Auth::user()->lat}}" user-lng="{{Auth::user()->lng}}" :user-id= "{{ Auth::id()}}" > </incident-map>
             </div>
         </div>
 	@endif

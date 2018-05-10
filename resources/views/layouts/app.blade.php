@@ -16,7 +16,7 @@
 <body>
   <div id="app">
     <nav class="navbar navbar-expand-md">
-      <a class="navbar-brand" href="#">WERS</a>
+      <a class="navbar-brand" href="{{route('home')}}">WERS</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -33,6 +33,7 @@
       
       @yield('add_button')
       <a href="#"><i class="fas fa-bell js-notifications"></i></a>
+      <a href="{{route('edit.user',Auth::user())}}"><i class="fas fa-cog"></i></a><span>&nbsp;</span>
       <a href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST"
