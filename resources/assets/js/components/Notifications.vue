@@ -10,6 +10,9 @@
             <span>{{ notification.template }}</span>
             <span class="read-mark" v-on:click="readNotification(notification.id)"><i class="fas fa-circle"></i></span>
           </div>
+          <div v-if="unreadNotifications.length == 0" class="text-center">
+              👍 Nothing here yet.
+          </div>
       </div>
   </div>
 </template>
