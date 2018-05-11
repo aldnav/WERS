@@ -14,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \URL::forceScheme('https'); // force https
+        if (empty($_SERVER['HTTPS']) && env('APP_ENV') === 'prod') {
+            \URL::forceScheme('https'); // force https
+        }
         /**
          * Notification
          * 1. Who to send notif
