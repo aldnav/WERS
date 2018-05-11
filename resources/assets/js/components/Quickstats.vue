@@ -49,7 +49,7 @@
                         this.stats = results;
                     }
                 });
-            }, 2000);
+            }, 5000);
         }
     }
 </script>
