@@ -37,7 +37,7 @@ Route::post('/user-reports/validate/{id}/{userid}/{resolve?}', 'ReportPersonalCo
 Route::post('/user-reports/reject/{id}/{userid}', 'ReportPersonalController@reject');
 
 
-Route::get('/stats/', 'ReportPersonalController@stats');
+Route::get('/stats', 'NotificationController@getUnread');
 Route::get('/notifications/unread', 'NotificationController@getUnread');
 Route::post('/notifications/read/{id}', 'NotificationController@read');
 Route::get('/notifications/unread/count', 'NotificationController@getUnreadCount');
