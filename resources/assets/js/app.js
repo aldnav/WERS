@@ -26,7 +26,8 @@ Vue.use(VueGoogleMaps, {
     }
 });
 Vue.prototype._=lodash;
-Vue.use(VueSocketio, 'http://localhost:8890');
+console.log('Init socket:', process.env.SOCKET_SERVER || 'http://localhost:8890');
+Vue.use(VueSocketio, process.env.SOCKET_SERVER || 'http://localhost:8890');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
