@@ -20,7 +20,8 @@
 <script>
     let ICONS = {
         'assigned': 'fas fa-notes-medical af-yellow',
-        'resolved': 'fas fa-clipboard-check af-green'
+        'resolved': 'fas fa-clipboard-check af-green',
+        'responder:nearby': 'fas fa-clipboard-check af-red'
     };
 
     export default {
@@ -58,6 +59,7 @@
                             this.setTemplateMessage(o);
                         });
                         this.unreadNotifications = result;
+                        Bus.$emit('reports_changed');//update sidebar
                     });
             },
 
@@ -84,6 +86,8 @@
                     notification.template = `Your report #${notification.object_id} has been resolved.`;
                 } else if (notification.action == 'reporter:rejected') {
                     notification.template = `Your report #${notification.object_id} has been rejected.`;
+                } else if (notification.action == 'responder:nearby') {
+                    notification.template = `An incident report #${notification.object_id} is nearby.`;
                 }
             }
 

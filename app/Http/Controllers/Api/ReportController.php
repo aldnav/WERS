@@ -19,12 +19,25 @@
         {
             $report = Report::create($request->all());
             $ticket = Ticket::create(['report_id' => $report->id, 'status'=>1]);
+            
+            $responders=self::nearbyResponders(request('lat'),request('lng'));
+
+            foreach($responders as $responder){
+                \App\Notification::notify(
+                $responder['user_id'],
+                'responder:nearby',
+                $report->id,
+                'report');
+            }
+
+
             \App\Notification::notify(
                 $report->owner_id,
                 'created',
                 $report->id,
                 'report');
-            return response()->json(['ticket_id'=>$ticket->id]);
+
+            return response()->json(['responders'=>$responders]);
         }
 
 
@@ -82,6 +95,31 @@
                 'radius'=>$distance
             ];
             return response($data,200);
+        }
+
+        public static function nearbyResponders($lat, $lng){
+            //Log::info('This is some useful information.');
+
+             $results = DB::select(DB::raw('SELECT users.id AS user_id, (3959 * acos(cos(radians(' . $lat . ')) * cos(radians(users.lat)) * cos(radians(users.lng) - radians(' . $lng . ')) + sin (radians(' . $lat . ')) * sin (radians(users.lat)))) AS distance FROM users WHERE users.user_role=1 HAVING distance <
+                 40')) ;   
+
+            //  $formattedResults = collect($results)->map(function ($item, $key) {
+            //     return [
+            //         'id'=>$item->user_id
+            //     ];
+            // });
+
+            $formattedResults= json_decode(json_encode($results), true);
+
+            return $formattedResults;
+
+            //  $data=[
+            //     'status'=>'success',
+            //     'results'=>$formattedResults,
+            // ];
+
+            // return response()->json(['results'=>$data]);
+
         }
 
         public function userReports(){
