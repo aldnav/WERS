@@ -45,7 +45,7 @@
           <div class="form-group row">
             <label class="col-sm-4">Contact Number</label>
             <div class="col-sm-8">
-              <input id="contact_number" placeholder="Contact Number" name="contact_number" class="form-control"  :contact-number="contactNumber" v-model="report.contact_number" required>
+              <input id="contact_number" placeholder="Contact Number" name="contact_number" class="form-control"   v-model="report.contact_number" required>
             </div>
           </div>
           <hr></hr>
@@ -60,7 +60,7 @@
     export default {
           props:{
             userId:'',
-            contactNumber:'',
+            contactNumber:String
           },
 
          data() {
@@ -106,7 +106,6 @@
             this.report.address=place.formatted_address;
             Bus.$emit('marker_changed',center);
             Bus.$emit('location_changed',place);
-            Bus.$emit('location_added',center);
           });
 
         },
@@ -150,6 +149,7 @@
               axios.post('/api/saveOrUpdate', this.report);
               this.$swal({text:"Report submitted!",icon:"success", timer:1000,});;  
                 this.$emit('close');
+              Bus.$emit('changed_sort');
             } else {
               this.errors = [];
               if(!this.report.body) this.errors.push("Fill in details of incident.");

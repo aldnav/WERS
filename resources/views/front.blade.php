@@ -4,11 +4,14 @@
 
 @section('content')
 	@if(!Auth::guest() AND Auth::user()->user_role==1)
+    @section('add_button')
+        <a href="#" v-on:click="showReports=true" class="navbar-actions"><i class="fas fa-flag"></i></a>
+    @endsection
     		<div class="container-fluid">
 	        	<div class="row flex-xl-nowrap">
-	            <sidebar :responder="true"></sidebar>
+	            <sidebar :user-lat="{{Auth::user()->lat}}" :user-lng="{{Auth::user()->lng}}"></sidebar>
 	            <div class=" col-xs-12 col-sm-9">
-	                <responder-map :user-id="{{Auth::id()}}"> </responder-map>            
+	                <responder-map user-lat="{{Auth::user()->lat}}" user-lng="{{Auth::user()->lng}}" :user-id="{{Auth::id()}}"> </responder-map>            
 	        	</div>
 	    		</div>
     		</div>
@@ -31,23 +34,22 @@
 	          </div>
 	          @else
 	          <div class="panel-body">
-	            <report-form :user-id= "{{ Auth::id() }}" :contact-number={{Auth::user()->contact_number}}  @close="showModal = false"></report-form>
+	            <report-form contact-number="{{Auth::user()->contact_number}}" :user-id= "{{ Auth::id()}}"   @close="showModal = false"></report-form>
 	          </div>
 	          @endif
 	      </template>
 	    </modal>
-		<div class="row flex-xl-nowrap">
-			@if(Auth::guest())
-            	<sidebar :user-id="''" :responder="false"></sidebar>
+		<div class="row flex-xl-nowrap">	
+			@if(Auth::guest())    
+            	<reporter-sidebar :user-id="''" :responder="false"></reporter-sidebar>
             @else
-            	<sidebar :user-id="{{ Auth::id() }}" :responder="false"></sidebar>
+            	<reporter-sidebar :user-id="{{ Auth::id() }}" ></reporter-sidebar>
 
             @endif
             <div class="col-12 col-md-9 col-xl-10 m-0 p-0">
-                <incident-map> </incident-map>
+                <incident-map user-lat="{{Auth::user()->lat}}" user-lng="{{Auth::user()->lng}}" :user-id= "{{ Auth::id()}}" > </incident-map>
             </div>
-	        </div>
-	    </div>
+        </div>
 	@endif
 @endsection
 

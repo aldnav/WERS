@@ -17,7 +17,7 @@
 <body>
   <div id="app">
     <nav class="navbar navbar-expand-md">
-      <a class="navbar-brand" href="#">WERS</a>
+      <a class="navbar-brand" href="{{route('home')}}">WERS</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -29,11 +29,16 @@
       <div class="quick-stats mr-auto">
         <stat></stat>
       </div>
-      <button type="button" class="btn btn-sm js-add-btn" aria-label="Left Align" v-on:click="showModal=true"><i class="fas fa-plus-circle" id="show-modal"></i></button>
+
       @if(!Auth::guest())
       <!-- <a href="#" v-on:click="showReports=true" class="navbar-actions"><i class="fas fa-flag"></i></a> -->
       <a href="#" v-on:click="showNotifications=true"><i class="fas fa-bell js-notifications"></i></a>
-      <a href="{{ route('logout')}}" class="auth" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
+      
+      
+      @yield('add_button')
+      <a href="#"><i class="fas fa-bell js-notifications"></i></a>
+      <a href="{{route('edit.user',Auth::user())}}"><i class="fas fa-cog"></i></a><span>&nbsp;</span>
+      <a href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST"
               style="display: none;">

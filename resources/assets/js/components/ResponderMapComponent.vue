@@ -17,7 +17,7 @@
     </gmap-cluster>
 
     <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
-      <info-content :address='address' :content="infoContent" :reporter="reporter" :contact-number="contactNumber" :report-date="report_date"></info-content>
+      <info-content :address='address' :is-responder="true" :content="infoContent" :reporter="reporter" :contact-number="contactNumber" :report-date="report_date"></info-content>
     </gmap-info-window>  
   </GmapMap>
 </template>
@@ -33,7 +33,7 @@ export default {
           'info-content':InfoContent
       },
 
-      props:['userId'],
+      props:['userId', 'userLat', 'userLng'],
 
         // mounted() {
         //      this.geoLocationInit();
@@ -67,10 +67,53 @@ export default {
             },
             radius:20,
             status:0,
+            geolocated:false,
           }
         },
 
+        mounted(){
+          this.geoLocationInit();
+          this.initMap();
+        },
+
         methods: {
+          initMap() {
+
+            if((this.userLat==0|| this.userLat==null) && (!geolocated)) {
+              this.center = {lat:11.92,lng:122.63};
+              this.zoom = 5.5;
+            }
+            else {
+              this.center.lat=parseFloat(this.userLat);
+              this.center.lng=parseFloat(this.userLng);
+              this.zoom=18;
+            }
+            this.fetchReports();
+          },
+
+          geoLocationInit (){
+            if(navigator.geolocation){
+              navigator.geolocation.getCurrentPosition(this.success,this.fail);
+            } else {
+              alert("Browser not supported");
+            }
+          },
+
+          success: function(position){
+            let center = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            this.center=center;
+            this.zoom=18;
+            Bus.$emit('marker_changed',this.center);
+            this.geolocated=true;
+          },
+
+          fail: function(error){
+            this.geolocated=false;
+            console.log("error:", error);
+          },
 
           toggleInfoWindow (marker, idx) {
 
@@ -98,36 +141,14 @@ export default {
                       Bus.$emit('reports_fetched',data);
               });
           },
-
-          addIcon(){
-            for(item in this.markers)
-            {
-              if(item.incident == 1)
-                item.icon = "/icons/fire.png";
-              else
-                item.icon = "/icons/road accident.png";
-            }
-          },
         },
 
          created(){
-            if(navigator.geolocation){
-              navigator.geolocation.getCurrentPosition((position)=> {
-                this.center = {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-                };
-                this.zoom = 12;
-                Bus.$emit('marker_changed',this.center);
-                this.fetchReports();
-              });
-              console.log("successful geolocation.");
-              //initMap();
-            } else {
-              this.fetchReports();
-              alert("Browser not supported");
-            }
-            
+                        
+            Bus.$on('currentloc_changed', data=> {
+              this.center=data;
+            })
+
             Bus.$on('reports_fetched',data=>{
               this.markers=data.markers;
               if(this.markers.length>0){
@@ -141,11 +162,11 @@ export default {
               this.fetchReports();
             })
 
-            Bus.$on('marker_result_clicked', index=> {
-              let targetMarker=this.markers[index];
+            Bus.$on('marker_result_clicked', item=> {
+              let targetMarker= _.find(this.markers, (o) => o.id === item.report_id);
               this.center=targetMarker.position;
               this.zoom=20;
-              this.toggleInfoWindow(targetMarker,index)
+              this.toggleInfoWindow(targetMarker,targetMarker.id);
             })
 
             Bus.$on('changed_radius', data=> {

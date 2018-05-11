@@ -30,3 +30,5 @@ Route::post('/saveOrUpdate','Api\ReportController@saveOrUpdate');
 Route::post('/respondReport','Api\ReportController@respondReport');
 
 Route::post('/recent-reports', 'Api\ReportController@recentReports');
+
+Route::post('/user-submissions', 'Api\ReportController@userReports');

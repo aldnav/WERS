@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', 'HomeController@index')->middleware('auth');
+Route::get('/', 'HomeController@index')->middleware('auth')->name('home');
+
 
 Route::get('userContact', 'UserController@userContact');  
 
@@ -21,7 +22,9 @@ Route::get('userContact', 'UserController@userContact');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('users/{user}',  ['as' => 'edit.user', 'uses' => 'UserController@edit'])->middleware('auth');
+Route::put('users/{user}/update', 'UserController@update')->middleware('auth');
+
 
 Route::get('/signin',function(){
 	return view('auth/login');
