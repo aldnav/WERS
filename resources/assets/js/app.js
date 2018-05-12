@@ -217,4 +217,18 @@ const app = new Vue({
 // });
 
 
+// Enable pusher logging - don't include this in production
+Pusher.logToConsole = true;
+
+var pusher = new Pusher('3b1cc74f234a6626b808', {
+    cluster: 'ap1',
+    encrypted: true
+});
+
+var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function(data) {
+    alert(data.message);
+});
+
+
 $('#navbarDropdown').dropdown();
