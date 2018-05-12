@@ -40,15 +40,16 @@
 
         mounted() {
             // get report stats for today (last 24 hours)
-            axios.get('/stats/')
+            setTimeout(() => {
+                axios.get('/stats')
                 .then(response => {
                     let results = response.data.result;
                     if (results) {
                         results.forEach((el, i) => el.index = i);
                         this.stats = results;
                     }
-                })
-
+                });
+            }, 5000);
         }
     }
 </script>
