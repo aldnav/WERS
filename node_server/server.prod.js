@@ -24,4 +24,4 @@ io.on('connection', (socket) => {
 });
 
 
-app.listen(8890);
+app.listen(8890, '0.0.0.0');
