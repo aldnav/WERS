@@ -7,7 +7,7 @@ let options = {
 };
 
 let app = require('https').createServer(options),
-    io = require('socket.io').list(app);
+    io = require('socket.io').listen(app);
 let redis = require('redis');
 
 io.on('connection', (socket) => {
