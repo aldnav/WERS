@@ -15,6 +15,8 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import sort from 'vuejs-sort';
 import lodash from 'lodash';
 import VueSocketio from 'vue-socket.io';
+import Pusher from 'require';
+Pusher.logToConsole = true;
 
 window.Bus = new Vue;
 
@@ -210,6 +212,16 @@ const app = new Vue({
     }
 });
 
+
+let pusher = new Pusher('3b1cc74f234a6626b808', {
+    cluster: 'ap1',
+    encrypted: true
+});
+
+let channel = pusher.subscribe(`notif-${uid}`);
+channel.bind('notification', function(data) {
+    alert(data.message);
+});
 
 // const app = new Vue({
 //     el: '#app'
