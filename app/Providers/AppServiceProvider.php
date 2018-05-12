@@ -64,11 +64,31 @@ class AppServiceProvider extends ServiceProvider
         });
 
         \App\Notification::created(function($notification) {
-            Redis::publish('message', json_encode([
+            // Redis::publish('message', json_encode([
+            //     'pchannel'=>'notification',
+            //     'event'=>'created',
+            //     'obj'=>$notification
+            // ]));
+            $options = array(
+                'cluster' => 'ap1',
+                'encrypted' => true
+            );
+            $pusher = new \Pusher\Pusher(
+                '3b1cc74f234a6626b808',
+                'a5deb3c87f88f844b51e',
+                '524677',
+                $options
+            );
+
+            $data['message'] = json_encode([
                 'pchannel'=>'notification',
                 'event'=>'created',
                 'obj'=>$notification
-            ]));
+            ]);
+            $pusher->trigger(
+                'notif-'.$notification->owner_id,
+                'notification',
+                $data);
         });
     }
 
