@@ -36,12 +36,13 @@
 
             this.fetchNotifications('unread');
 
-            // Bus.$on('notifications:created', notif => {
-            //     console.log(notif);
-            //     notif.icon = this.getIcon(notif);
-            //     this.setTemplateMessage(notif);
-            //     this.unreadNotifications.unshift(notif);
-            // });
+            Bus.$on('notifications:created', notif => {
+                // console.log(notif);
+                // notif.icon = this.getIcon(notif);
+                // this.setTemplateMessage(notif);
+                // this.unreadNotifications.unshift(notif);
+                this.fetchNotifications('unread');
+            });
         },
 
         beforeDestroy() {
