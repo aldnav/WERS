@@ -41,3 +41,14 @@ $cell-val: #6D8494;
         padding-top: 14px;
     }
 }
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+    .modal-container {
+        width: auto !important;
+    }
+
+    .notif-modal .modal-container {
+        width: 345px !important;
+    }
+  }
