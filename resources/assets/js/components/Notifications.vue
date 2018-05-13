@@ -5,7 +5,8 @@
             v-bind:key="notification.id"
             v-bind:data-key="notification.id"
             v-bind:class="{ 'notification-item--unread': !notification.is_read }"
-            v-for="notification in unreadNotifications">
+            v-for="notification in unreadNotifications"
+            v-on:click="readNotification(notification.id, notification.object_id)">
             <span><i :class="notification.icon"></i></span>
             <span>{{ notification.template }}</span>
             <span class="read-mark" v-on:click="readNotification(notification.id, notification.object_id)"><i class="fas fa-circle"></i></span>
