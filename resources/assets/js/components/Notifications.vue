@@ -25,6 +25,7 @@
     };
 
     export default {
+        props:{userRole:0},
         data() {
             return {
                 unreadNotifications: [],
@@ -68,7 +69,8 @@
                 axios.post('/notifications/read/' + id)
                     .then(response => {
                         this.fetchNotifications('unread');
-                        window.location.href='user-reports/view/'+repid;
+                        if(this.userRole==0)
+                            window.location.href='user-reports/view/'+repid;
                         Bus.$emit('notifRead', 'yeah');
                     });
             },
