@@ -220,7 +220,13 @@ let pusher = new Pusher('3b1cc74f234a6626b808', {
 
 let channel = pusher.subscribe(`notif-${uid}`);
 channel.bind('notification', function(data) {
-    alert(data.message);
+    // alert(data.message);
+    // console.log(data);
+    data = data.message;
+    if (data.event == 'created') {
+        this.unreadNotifCount += 1;
+    }
+    Bus.$emit('notifications:' + data.event, data.obj);
 });
 
 // const app = new Vue({
