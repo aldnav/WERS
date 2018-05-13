@@ -41,3 +41,5 @@ Route::get('/stats', 'ReportPersonalController@stats');
 Route::get('/notifications/unread', 'NotificationController@getUnread');
 Route::post('/notifications/read/{id}', 'NotificationController@read');
 Route::get('/notifications/unread/count', 'NotificationController@getUnreadCount');
+
+Route::get('user-reports/view/{rep}',  ['as' => 'reports.status', 'uses' => 'Api\ReportController@trackStatus'])->middleware('auth');

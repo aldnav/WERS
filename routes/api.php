@@ -32,3 +32,5 @@ Route::post('/respondReport','Api\ReportController@respondReport');
 Route::post('/recent-reports', 'Api\ReportController@recentReports');
 
 Route::post('/user-submissions', 'Api\ReportController@userReports');
+
+Route::post('/report-status', 'Api\ReportController@reportTracker');

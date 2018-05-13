@@ -8,7 +8,7 @@
             v-for="notification in unreadNotifications">
             <span><i :class="notification.icon"></i></span>
             <span>{{ notification.template }}</span>
-            <span class="read-mark" v-on:click="readNotification(notification.id)"><i class="fas fa-circle"></i></span>
+            <span class="read-mark" v-on:click="readNotification(notification.id, notification.object_id)"><i class="fas fa-circle"></i></span>
           </div>
           <div v-if="unreadNotifications.length == 0" class="text-center">
               👍 Nothing here yet.
@@ -25,6 +25,7 @@
     };
 
     export default {
+        props:{userRole:0},
         data() {
             return {
                 unreadNotifications: [],
@@ -64,10 +65,12 @@
                     });
             },
 
-            readNotification(id) {
+            readNotification(id,repid) {
                 axios.post('/notifications/read/' + id)
                     .then(response => {
                         this.fetchNotifications('unread');
+                        if(this.userRole==0)
+                            window.location.href='user-reports/view/'+repid;
                         Bus.$emit('notifRead', 'yeah');
                     });
             },

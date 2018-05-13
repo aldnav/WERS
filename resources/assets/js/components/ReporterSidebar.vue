@@ -8,8 +8,8 @@
           <form class="form-inline">
                <label for="status" class="col-xs-4 control-label">Status&nbsp; </label>
              <select id="status" class="custom-select custom-select-sm"  v-model="status" @change="changeStatus">
-              <option value="0">Unvalidated</option>
-              <option value="1">Unresolved</option>
+              <option value="0">Pending</option>
+              <option value="1">Validated</option>
               <option value="2">Resolved</option>
               <option value="3">Rejected</option>              
             </select>

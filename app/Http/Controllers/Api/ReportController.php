@@ -14,6 +14,10 @@
     class ReportController extends Controller
     {
 
+        public function trackStatus($rep)
+        {   
+            return view('reports.status', compact('rep'));
+        }
 
         public function saveOrUpdate(Request $request)
         {
@@ -163,24 +167,60 @@
                 ];
             });
 
-            // $formattedResults = collect($results)->map(function ($item, $key) {
-            //     return [
-            //         'report_id'=>$item->report_id,
-            //         'text'=>$item->address ? $item->address :"lat: {$item->latitude} lng: {$item->longitude}",
-            //         'incident'=>$item->incident_name,
-            //         'report_date'=>$item->report_date, 
-            //     ];
-            // });
-
 
             $data=[
                 'status'=>'success',
                 'markers'=>$markers,
             ];
 
-            return response($data,200);
+            return response($data);
         }
 
+        public function reportTracker(){
+            $repid = request('repid');
+            $userId = request('userid');
+            $filter='';
+            if($repid!=0)
+                $filter='AND reports.id='.$repid;
+
+
+            $results = DB::select(DB::raw('SELECT reports.id AS report_id, round(reports.lat,3) AS latitude, round(reports.lng,3) AS longitude, address, incidents.name AS incident_name, body, users.name AS responder,  DATE_FORMAT(reports.created_at, "%M %d, %Y %I:%i %p") AS report_date, reports.created_at AS unformatted_date, users.contact_number AS contact_number, reports.is_validated AS is_valid, reports.is_rejected AS is_reject, tickets.status AS ticket_status FROM reports 
+                INNER JOIN incidents ON reports.incident_id = incidents.id 
+                LEFT JOIN tickets ON tickets.report_id = reports.id 
+                LEFT JOIN users ON tickets.responder_id=users.id 
+                WHERE reports.owner_id= '.$userId.' '.$filter.' ORDER BY report_date desc'));
+        
+            $reports = collect($results)->map(function ($item, $key) {
+                $statuses = ['REJECTED', 'PENDING', 'VALIDATED','RESOLVED'];
+                $status = '';
+                if($item->is_reject==1){
+                    $status=$statuses[0];
+                } else if($item->is_valid == 0){
+                    $status=$statuses[1];
+                }  else if($item->is_valid==1){
+                    $status=$statuses[2];
+                } else {
+                    $status=$statuses[3];
+                }
+                return [
+                    'report_id' => $item->report_id,
+                    'address' => $item->address ? $item->address :"lat: {$item->latitude} lng: {$item->longitude}",
+                    'incident'=>$item->incident_name,
+                    'details'=> $item->body,
+                    'report_date'=> $item->report_date,
+                    'unformatted_date'=>$item->unformatted_date,
+                    'contact_number'=>$item->contact_number,
+                    'responder'=>$item->responder,
+                    'status'=>$status 
+                ];
+            });
+
+            $data=[
+                'reports'=>$reports,
+            ];
+
+            return response($data);
+        }
         //Report
         //isvalidated
         //isresolved
@@ -204,5 +244,11 @@
         //ticket status = 0
         //report isrejected = true
 
-
+        /*
+        * 0 - rejected
+        * 1 - Pending
+        * 2 - validated
+        * 3 - resolved
+        * 
+        */
     }

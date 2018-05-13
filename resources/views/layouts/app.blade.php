@@ -34,7 +34,11 @@
       @if(!Auth::guest())
       <!-- <a href="#" v-on:click="showReports=true" class="navbar-actions"><i class="fas fa-flag"></i></a> -->
       <a href="#" v-on:click="showNotifications=true"><i class="fas fa-bell js-notifications"></i></a>
-      <a href="{{route('edit.user',Auth::user())}}"><i class="fas fa-cog"></i></a><span>&nbsp;</span>
+      @if(Auth::user()->user_role==0)
+        <a href="{{route('reports.status',0)}}"><i class="fas fa-table"></i></a><span>&nbsp;</span>
+      @endif
+      <a href="{{route('edit.user',Auth::user())}}"><i class="fas fa-sliders-h"></i></a><span>&nbsp;</span>
+        
       <a href="{{ route('logout')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"> Logout</a>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST"

@@ -140,7 +140,7 @@
         </div>
         @else
         <div class="panel-body notifications-panel-body">
-            <notifications></notifications>
+            <notifications :user-role="{{Auth::user()->user_role}}"></notifications>
         </ul>
         </div>
         @endif
