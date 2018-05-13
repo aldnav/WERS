@@ -89,7 +89,6 @@
 
             focusMarker(item){
                 Bus.$emit('marker_result_clicked',item);
-                console.log(item);
             },
 
             changeRadius(){
@@ -107,6 +106,19 @@
                 this.results=data.results;
                 console.log('event data',data);
             })
+
+            Bus.$on('notifRead', report_id=> {
+                console.log("sortedResults",this.sortedResults);
+               for (var i=0; i < this.sortedResults.length; i++) {
+                  if (this.sortedResults[i].report_id === report_id) {
+                      this.focusMarker(this.sortedResults[i])
+                      console.log("notifread",this.sortedResults[i]);
+                      debugger;
+                  }
+                }
+    
+              }
+            )
         },
 
         computed:{

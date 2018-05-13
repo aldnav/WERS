@@ -124,6 +124,8 @@ export default {
             this.contactNumber = marker.contact_number;
             this.reporter = marker.reporter;
             this.report_date = marker.report_date;
+            console.log("showinf");
+
             //check if its the same marker that was selected if yes toggle
             if (this.currentMidx == idx) {
                 this.infoWinOpen = !this.infoWinOpen;
@@ -163,9 +165,11 @@ export default {
             })
 
             Bus.$on('marker_result_clicked', item=> {
+              console.log("report id",item);
               let targetMarker= _.find(this.markers, (o) => o.id === item.report_id);
               this.center=targetMarker.position;
               this.zoom=20;
+              console.log("target",targetMarker);
               this.toggleInfoWindow(targetMarker,targetMarker.id);
             })
 
@@ -179,9 +183,14 @@ export default {
               this.fetchReports();
             })
 
-            Bus.$on('respond_to_report', index=> {
+            Bus.$on('respond_to_report', item=> {
               //this.respondToReport(index);
-              Bus.$emit('selectReport', this.markers[index]);
+              console.log("respond_report",item);
+              for (var i=0; i < this.markers.length; i++) {
+                if (this.markers[i].id === item.report_id) {
+                    Bus.$emit('selectReport',this.markers[i]);
+                }
+              }
             })
             
              Bus.$on('reports_changed', data=>{
