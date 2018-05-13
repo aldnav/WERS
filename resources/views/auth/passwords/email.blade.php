@@ -8,6 +8,9 @@
                 <div class="panel-heading">Reset Password</div>
 
                 <div class="panel-body">
+                    <a href="/">
+                        <h2 class="text-center"><strong>WERS</strong></h2>
+                    </a>
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
