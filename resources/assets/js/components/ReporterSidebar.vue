@@ -30,10 +30,11 @@
           
     </div>
         <div class="reports-list p-2">
-            <div v-for="(item,i) in sortedResults">
-                <h6 :key="i"
-                    @click="focusMarker(item)"
-                    style="text-decoration: underline">{{item.name}}</h6>
+            <div v-for="(item,i) in sortedResults" :key="i"
+                class="reports-item"
+                @click="focusMarker(item)"
+                >
+                {{item.name}}
             </div>
         </div>
     </div>
