@@ -220,9 +220,9 @@ let pusher = new Pusher('3b1cc74f234a6626b808', {
 
 let channel = pusher.subscribe(`notif-${uid}`);
 channel.bind('notification', function(data) {
-    alert(data.message);
+    // alert(data.message);
+    data = JSON.parse(data.message);
     console.log(data);
-    data = JSON.parse(JSON.parse(data.message));
     if (data.event == 'created') {
         this.unreadNotifCount += 1;
     }
