@@ -14,7 +14,7 @@ import * as VueGoogleMaps from 'vue2-google-maps';
 import VueSweetalert2 from 'vue-sweetalert2';
 import sort from 'vuejs-sort';
 import lodash from 'lodash';
-import VueSocketio from 'vue-socket.io';
+import VueSocketio from 'vue-socket.io';  
 
 window.Bus = new Vue;
 
@@ -46,6 +46,7 @@ Vue.component('report-validate-detail', require('./components/ReportValidateDeta
 let notifComponent = Vue.component('notifications', require('./components/Notifications.vue'));
 Vue.component('reporter-sidebar', require('./components/ReporterSidebar.vue'));
 Vue.component('user-update', require('./components/UserUpdate.vue'));
+Vue.component('report-tracker', require('./components/ReportTracker.vue'));
 
 
 window.INCIDENTS = ['FIRE', 'FLOOD', 'ROAD ACCIDENT', 'LANDSLIDE'];
