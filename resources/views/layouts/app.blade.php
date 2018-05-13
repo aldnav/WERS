@@ -26,7 +26,7 @@
       @yield('reports')
       @yield('validate_report')
       @yield('notifications')
-      <div class="quick-stats mr-auto">
+      <div class="quick-stats mr-auto d-none d-lg-block">
         <stat></stat>
       </div>
       @yield('add_button')
