@@ -79,7 +79,7 @@ export default {
         methods: {
           initMap() {
 
-            if((this.userLat==0|| this.userLat==null) && (!geolocated)) {
+            if((this.userLat==0|| this.userLat==null) && (!this.geolocated)) {
               this.center = {lat:11.92,lng:122.63};
               this.zoom = 5.5;
             }
