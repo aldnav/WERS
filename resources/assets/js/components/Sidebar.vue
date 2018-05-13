@@ -40,7 +40,7 @@
                 class="reports-item"
                 @click="focusMarker(item)"
                 >
-                {{item.name}}
+                {{item.text}}
             </div>
         </div>
     </div>
