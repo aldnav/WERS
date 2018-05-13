@@ -22,18 +22,19 @@
 
         data: function() {
             return {
-                marker_index:'',
+                marker:[],
             }
         },
 
         methods: {
             respond(){
-                Bus.$emit('respond_to_report',this.marker_index);
+                console.log("marker",this.marker);
+                Bus.$emit('respond_to_report',this.marker);
             }
         },
         created(){
-            Bus.$on('marker_result_clicked', index=> {
-              this.marker_index=index;
+            Bus.$on('marker_result_clicked', item=> {
+              this.marker=item;
             })
         }
     }

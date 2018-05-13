@@ -72,7 +72,8 @@
                         this.fetchNotifications('unread');
                         if(this.userRole==0)
                             window.location.href='user-reports/view/'+repid;
-                        Bus.$emit('notifRead', 'yeah');
+                        else
+                            Bus.$emit('notifRead', repid);
                     });
             },
 
