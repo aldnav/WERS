@@ -5,7 +5,10 @@
             v-bind:key="stat.id">
             <div class="stat">
                 <div class="stat-icon">
-                <div class="stat-counter"><i class="fas fa-fire"></i><span>{{ stat.count }}</span></div>
+                <div class="stat-counter">
+                    <!-- <i class="fas fa-fire"></i> -->
+                    <span>{{ stat.count }}</span>
+                </div>
                 </div>
                 <div class="stat-text">{{ stat.text }}</div>
             </div> 
