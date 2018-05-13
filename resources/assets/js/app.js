@@ -15,6 +15,8 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import sort from 'vuejs-sort';
 import lodash from 'lodash';
 import VueSocketio from 'vue-socket.io';  
+import Pusher from 'pusher-js';
+Pusher.logToConsole = true;
 
 window.Bus = new Vue;
 
@@ -26,7 +28,7 @@ Vue.use(VueGoogleMaps, {
     }
 });
 Vue.prototype._=lodash;
-Vue.use(VueSocketio, 'http://localhost:8890');
+// Vue.use(VueSocketio, 'http://localhost:8890');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -211,6 +213,23 @@ const app = new Vue({
     }
 });
 
+
+let pusher = new Pusher('3b1cc74f234a6626b808', {
+    cluster: 'ap1',
+    encrypted: true
+});
+
+let channel = pusher.subscribe(`notif-${uid}`);
+channel.bind('notification', function(data) {
+    // alert(data.message);
+    data = JSON.parse(data.message);
+    console.log(data);
+    if (data.event == 'created') {
+        console.log('hello');
+        app.unreadNotifCount += 1;
+    }
+    Bus.$emit('notifications:' + data.event, data.obj);
+});
 
 // const app = new Vue({
 //     el: '#app'

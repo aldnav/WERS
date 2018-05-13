@@ -27,6 +27,30 @@ $back-light: #FFFFFF;
 }
 
 .bd-sidebar {
-    height: 92vh;
+    height: 100%;
+    // overflow-y: auto;
+}
+.reports-list {
+  height: 80vh;
+  overflow-y: auto;
+}
+
+.reports-item {
+  padding: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e6e6e6;
+  }
+}
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .bd-sidebar {
+    height: auto;
+  }
+  .reports-list {
+    height: 200px;
     overflow-y: auto;
+  }
 }

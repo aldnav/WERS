@@ -1,6 +1,6 @@
 <template>
-    <div class="col-12 col-md-3 col-xl-2 bd-sidebar" style="overflow-y:auto; height: 98vh">
-        <div class="filters">
+    <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+        <div class="filters p-2">
           <gmap-autocomplete style="width: 100%;" placeholder="Enter your location" ref="autocomplete" 
             @place_changed="setPlace" :component-restrictions="{country:['PH']}">
           </gmap-autocomplete>
@@ -29,10 +29,13 @@
           </form>
           
     </div>
-        <div v-for="(item,i) in sortedResults">
-            <h6 :key="i"
+        <div class="reports-list p-2">
+            <div v-for="(item,i) in sortedResults" :key="i"
+                class="reports-item"
                 @click="focusMarker(item)"
-                style="text-decoration: underline">{{item.name}}</h6>
+                >
+                {{item.name}}
+            </div>
         </div>
     </div>
 </template>
