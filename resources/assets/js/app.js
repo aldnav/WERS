@@ -224,7 +224,8 @@ channel.bind('notification', function(data) {
     data = JSON.parse(data.message);
     console.log(data);
     if (data.event == 'created') {
-        this.unreadNotifCount += 1;
+        console.log('hello');
+        app.unreadNotifCount += 1;
     }
     Bus.$emit('notifications:' + data.event, data.obj);
 });
